@@ -17,11 +17,11 @@ import edu.wpi.first.wpilibj.SerialPort.Port;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import frc.robot.TalonSRXSpeedController;
+import frc.robot.TalonFXSpeedController;
 
 public class Drivetrain extends SubsystemBase {
-  private TalonSRXSpeedController leftTalons;
-  private TalonSRXSpeedController rightTalons;
+  private TalonFXSpeedController leftTalons;
+  private TalonFXSpeedController rightTalons;
   private SpeedControllerGroup leftGroup;
   private SpeedControllerGroup rightGroup;
   private DifferentialDrive dDrive;
@@ -39,8 +39,8 @@ public class Drivetrain extends SubsystemBase {
    * Creates a new Drivetrain.
    */
   public Drivetrain() {
-    leftTalons = new TalonSRXSpeedController(Constants.LEFT_MOTOR_1, Constants.LEFT_MOTOR_2, Constants.LEFT_MOTOR_3);
-    rightTalons = new TalonSRXSpeedController(Constants.RIGHT_MOTOR_1, Constants.RIGHT_MOTOR_2, Constants.RIGHT_MOTOR_3);
+    leftTalons = new TalonFXSpeedController(Constants.LEFT_MOTOR_1, Constants.LEFT_MOTOR_2);
+    rightTalons = new TalonFXSpeedController(Constants.RIGHT_MOTOR_1, Constants.RIGHT_MOTOR_2);
    
 
     leftGroup = new SpeedControllerGroup(leftTalons);
