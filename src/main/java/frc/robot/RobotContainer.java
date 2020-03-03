@@ -12,12 +12,17 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.JoystickDrive;
+import frc.robot.commands.RunStorage;
+import frc.robot.commands.ToggleShift;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Turret;
 import frc.robot.subsystems.Vision;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.POVButton;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -33,14 +38,20 @@ public class RobotContainer {
   private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
 
   public final Drivetrain drivetrain;
-  public final JoystickDrive joystickDrive;
   public final Vision vision;
   public final Shooter shooter;
   public final Turret turret;
+  public final Intake intake;
 
-  private Joystick joy;
+  public final JoystickDrive joystickDrive;
+  
+
+  private XboxController controller;
   private Joystick wheel;
-  private Joystick controller;
+  private Joystick joy;
+  private POVButton intakeFWD;
+  private POVButton intakeBWD;
+  private JoystickButton toggleShift;
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -53,7 +64,10 @@ public class RobotContainer {
     vision = new Vision();
     shooter = new Shooter();
     turret = new Turret();
+    intake = new Intake();
+    
 
+  
   }
 
   /**
@@ -64,9 +78,16 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
   
-    joy = new Joystick(Constants.JOY);
+    controller = new XboxController(Constants.CONTROLLER);
     wheel = new Joystick(Constants.WHEEL);
-    controller = new Joystick(Constants.CONTROLLER);
+    joy = new Joystick(Constants.JOY);
+    intakeFWD = new POVButton(controller, 90);
+    intakeBWD = new POVButton(controller, 180);
+    toggleShift = new JoystickButton(controller, Constants.TOGGLE_SHIFT);
+
+    intakeFWD.whileHeld(new RunStorage(true, false, .5));
+    intakeBWD.whileHeld(new RunStorage(false, true, .5));
+    toggleShift.whenPressed(new ToggleShift());
 
   }
 
@@ -88,7 +109,7 @@ public class RobotContainer {
     return wheel;
   }
 
-  public Joystick getController(){
+  public XboxController getController(){
     return controller;
   }
 }

@@ -18,9 +18,8 @@ public class Shooter extends SubsystemBase {
   /**
    * Creates a new Shooter.
    */
-  private static TalonSRX shooterMotor1 = new TalonSRX(Constants.SHOOTER1);
-  private static TalonSRX shooterMotor2 = new TalonSRX(Constants.SHOOTER2);
-  private static VictorSPX intakeMotor = new VictorSPX(Constants.INTAKE);
+  private static TalonSRX shooterMotor1;
+  private static TalonSRX shooterMotor2;
 
   private double currentSpeed;
   private double maxSpeed;
@@ -29,8 +28,8 @@ public class Shooter extends SubsystemBase {
    * Creates a new Shooter.
    */
   public Shooter() {
-    shooterMotor1 = new TalonSRX(Constants.SHOOTER1);
-    shooterMotor2 = new TalonSRX(Constants.SHOOTER2);
+    shooterMotor1 = new TalonSRX(Constants.SHOOTER1_MOTOR);
+    shooterMotor2 = new TalonSRX(Constants.SHOOTER2_MOTOR);
     shooterMotor2.setInverted(true);
     
   }
@@ -46,8 +45,8 @@ public class Shooter extends SubsystemBase {
 
   }
 
-  public void inttakeBall(double speed) {
-    intakeMotor.set(ControlMode.PercentOutput, speed);
+  public double getShooterVel() {
+  
+    return (shooterMotor1.getSelectedSensorVelocity() + shooterMotor2.getSelectedSensorVelocity()) / 2;
   }
-
 }

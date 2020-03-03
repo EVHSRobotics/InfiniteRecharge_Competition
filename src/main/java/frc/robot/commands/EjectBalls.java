@@ -9,55 +9,31 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
-import frc.robot.RobotContainer;
 import frc.robot.subsystems.Intake;
-import frc.robot.subsystems.Shooter;
-import frc.robot.subsystems.Turret;
 
-public class ShootBall extends CommandBase {
-  private Shooter shooter;
-  private Turret turret;
-  private Intake intake;
-  private double shootThrottle, turretThrottle, manualTurret;
+public class EjectBalls extends CommandBase {
+  Intake intake;
+  private int count;
   /**
-   * Creates a new ShootBall.
+   * Creates a new EjectBalls.
    */
-  public ShootBall() {
+  public EjectBalls() {
     // Use addRequirements() here to declare subsystem dependencies.
-    shooter = Robot.robotContainer.shooter;
-    addRequirements(shooter);
-    
-    turret = Robot.robotContainer.turret;
     intake = Robot.robotContainer.intake;
+    addRequirements(intake);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    count = 0;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    shootThrottle = Robot.robotContainer.getController().getRawAxis(2);
-    turretThrottle =  Robot.robotContainer.getController().getRawAxis(3);
-    manualTurret = Robot.robotContainer.getController().getRawAxis(4);
-  
-    shooter.outtakeBall(shootThrottle);
-    turret.turnTurret(turretThrottle, manualTurret);
-
-    if (Robot.robotContainer.getJoy().getRawAxis(3) > 0) {
-      shooter.outtakeBall(1);
-      System.out.println("shooter vel " + shooter.getShooterVel());
-      if (shooter.getShooterVel() >= 9500) {
-        System.out.println("reached shooter velocity");
-        // shooter.intake();
-        intake.intakeBall(1);
-      }
-    } else {
-      shooter.outtakeBall(0);
-    }
-
+    count++;
+    intake.ejectBalls(-.5);
   }
 
   // Called once the command ends or is interrupted.
@@ -68,6 +44,10 @@ public class ShootBall extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+    if(count >= 3){
+      intake.ejectBalls(0);
+      return true;
+    }
     return false;
   }
 }

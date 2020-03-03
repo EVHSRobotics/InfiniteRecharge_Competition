@@ -35,7 +35,7 @@ public class Turret extends SubsystemBase {
    * Creates a new Turret.
    */
   public Turret() {
-    turretMotor = new TalonSRX(Constants.TURRET);
+    turretMotor = new TalonSRX(Constants.TURRET_MOTOR);
     this.vision = Robot.robotContainer.vision;
     limitSwitch_left = new DigitalInput(1);
     limitSwitch_right = new DigitalInput(0);
