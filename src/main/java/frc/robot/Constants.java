@@ -46,6 +46,6 @@ public final class Constants {
 	public static final int BANNER_1 = 0;
 	public static final int BANNER_2 = 0;
 
-	//push to practice 
+	//push to comp 
 	
 }
