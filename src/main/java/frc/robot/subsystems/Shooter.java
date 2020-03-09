@@ -42,8 +42,8 @@ public class Shooter extends SubsystemBase {
   }
 
   public void outtakeBall(double speed) {
-    shooterMotor1.set(ControlMode.PercentOutput, speed);
-    shooterMotor2.set(ControlMode.PercentOutput, speed);
+    shooterMotor1.set(ControlMode.Velocity, speed*20000);
+    shooterMotor2.set(ControlMode.Velocity, speed*20000);
 
    // System.out.println("Shooter 1 Encoder: " + shooterMotor1.getSelectedSensorPosition() );
 

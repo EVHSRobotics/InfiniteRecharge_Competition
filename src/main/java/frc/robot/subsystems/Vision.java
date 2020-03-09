@@ -53,7 +53,7 @@ public class Vision extends SubsystemBase {
     if(tv.getBoolean(false)){
       x = 0;
     }
-    System.out.println("X: " + x);
+   
     return x ;
     
   

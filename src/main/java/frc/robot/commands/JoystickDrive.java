@@ -48,7 +48,7 @@ public class JoystickDrive extends CommandBase {
     if(Math.abs(throttle) < .08){
       throttle = 0;
     }
-    drive.curveDrive(throttle, turn );
+    drive.curveDrive(throttle/4, turn );
     
 
     

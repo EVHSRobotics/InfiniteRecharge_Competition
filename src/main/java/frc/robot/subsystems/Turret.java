@@ -40,10 +40,18 @@ public class Turret extends SubsystemBase {
     limitSwitch_left = new DigitalInput(1);
     limitSwitch_right = new DigitalInput(0);
 
+    // kp = .03;
+    // kf = 0.1;
+    // ki = .0025;
+    // maxIntegral = 100;
+    // deadZone = 1;
+    // fric = 0;
+    // intErr = 0;
+    // posErr = 0;
     kp = .03;
-    kf = 0.1;
-    ki = .0025;
-    maxIntegral = 100;
+    kf = 0;
+    ki = 0;
+    maxIntegral = 0;
     deadZone = 1;
     fric = 0;
     intErr = 0;
@@ -57,15 +65,15 @@ public class Turret extends SubsystemBase {
 
   public void turnTurret(double autoTrigger, double manual) {
     posErr = vision.getX();
-    SmartDashboard.putNumber("Vision X: ", posErr);
+    System.out.println("X: " + posErr);
     intErr += posErr;
 
-    fric = (kf / deadZone) * posErr;
+    //fric = (kf / deadZone) * posErr;
     if (fric > kf) {
-      fric = kf;
+      //fric = kf;
     }
     if (fric < -kf) {
-      fric = -kf;
+      //fric = -kf;
     }
 
     if (intErr > maxIntegral) {
@@ -84,7 +92,7 @@ public class Turret extends SubsystemBase {
     if (getRightLimitSwitchStatus() == false && motorOutput < 0) {
       motorOutput = .25;
     }
-    System.out.println("Turret speed: " + motorOutput);
+   
     turretMotor.set(ControlMode.PercentOutput, motorOutput);
     SmartDashboard.putNumber("Motor Ouptut: ", motorOutput);
   }

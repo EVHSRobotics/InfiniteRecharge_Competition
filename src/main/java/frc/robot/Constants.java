@@ -39,7 +39,7 @@ public final class Constants {
 
 	//OI
 	public static final int JOY = 0;
-	public static final int WHEEL = 0;
+	public static final int WHEEL = 2;
 	public static final int CONTROLLER = 1;
 	public static final int INTAKE_BWD = 5;
 	public static final int INTAKE_FWD = 6;
