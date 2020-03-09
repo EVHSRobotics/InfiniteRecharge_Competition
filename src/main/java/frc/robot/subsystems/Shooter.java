@@ -26,6 +26,8 @@ public class Shooter extends SubsystemBase {
 
   /**
    * Creates a new Shooter.
+   * Note: Positive is backwards
+   * NEgative is forwards
    */
   public Shooter() {
     shooterMotor1 = new TalonSRX(Constants.SHOOTER1_MOTOR);
@@ -42,6 +44,8 @@ public class Shooter extends SubsystemBase {
   public void outtakeBall(double speed) {
     shooterMotor1.set(ControlMode.PercentOutput, speed);
     shooterMotor2.set(ControlMode.PercentOutput, speed);
+
+   // System.out.println("Shooter 1 Encoder: " + shooterMotor1.getSelectedSensorPosition() );
 
   }
 

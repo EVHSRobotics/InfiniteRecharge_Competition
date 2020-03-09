@@ -18,33 +18,38 @@ package frc.robot;
 public final class Constants {
 	//Motors
 	public static final int LEFT_MOTOR_1 = 0;
-	public static final int LEFT_MOTOR_2 = 0;
-	public static final int LEFT_MOTOR_3 = 0;
-	public static final int RIGHT_MOTOR_1 = 0;
-	public static final int RIGHT_MOTOR_2 = 0;
-	public static final int RIGHT_MOTOR_3 = 0;
-	public static final int SHOOTER1_MOTOR = 0;
-	public static final int SHOOTER2_MOTOR = 0;
-	public static final int TURRET_MOTOR = 0;
-	public static final int INTAKE_MOTOR = 0;
+	public static final int LEFT_MOTOR_2 = 1;
+	public static final int RIGHT_MOTOR_1 = 1;
+	public static final int RIGHT_MOTOR_2 = 3;
+	public static final int INTAKE_MOTOR = 10;
+	public static final int STORAGE_MOTOR = 0;
+	public static final int STORAGE2_MOTOR = 8;
+	public static final int TURRET_MOTOR = 9;
+	public static final int SHOOTER1_MOTOR = 14;
+	public static final int SHOOTER2_MOTOR = 15;
+
 
 	//Pneumatics
-	public static final int shifterUp1 = 0;
+	public static final int shifterUp1 = 1;
 	public static final int shifterDown1 = 0;
 	public static final int shifterUp2 = 0;
 	public static final int shifterDown2 = 0;
+	public static final int intakeUp = 0;
+	public static final int intakeDown = 0;
 
 	//OI
 	public static final int JOY = 0;
 	public static final int WHEEL = 0;
-	public static final int CONTROLLER = 0;
-	public static final int INTAKE_BWD = 0;
-	public static final int INTAKE_FWD = 0;
-	public static final int TOGGLE_SHIFT = 0;
+	public static final int CONTROLLER = 1;
+	public static final int INTAKE_BWD = 5;
+	public static final int INTAKE_FWD = 6;
+	public static final int TOGGLE_SHIFT = 1;
 
 	//sensors
-	public static final int BANNER_1 = 0;
+	public static final int BANNER_1= 0;
 	public static final int BANNER_2 = 0;
+	public static final int SHOOTER_BANNER = 0;
+	
 
 	//push to comp 
 	

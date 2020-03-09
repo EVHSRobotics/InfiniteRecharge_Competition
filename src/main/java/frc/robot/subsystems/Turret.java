@@ -52,6 +52,7 @@ public class Turret extends SubsystemBase {
 
   @Override
   public void periodic() {
+  
   }
 
   public void turnTurret(double autoTrigger, double manual) {
@@ -77,12 +78,13 @@ public class Turret extends SubsystemBase {
       intErr = 0;
     }
     motorOutput = autoTrigger * (intErr * ki + posErr * kp + fric) + manual*.5;
-    if (getLeftLimitSwitchStatus() == false && motorOutput < 0) {
-      motorOutput = .5;
+    if (getLeftLimitSwitchStatus() == false && motorOutput > 0) {
+      motorOutput = -.25;
     }
-    if (getRightLimitSwitchStatus() == false && motorOutput > 0) {
-      motorOutput = -.5;
+    if (getRightLimitSwitchStatus() == false && motorOutput < 0) {
+      motorOutput = .25;
     }
+    System.out.println("Turret speed: " + motorOutput);
     turretMotor.set(ControlMode.PercentOutput, motorOutput);
     SmartDashboard.putNumber("Motor Ouptut: ", motorOutput);
   }

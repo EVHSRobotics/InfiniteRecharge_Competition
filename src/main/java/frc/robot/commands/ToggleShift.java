@@ -26,6 +26,7 @@ public class ToggleShift extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    System.out.println("Toggle shift initialized");
     drive.toggleShift();
   }
 
@@ -42,6 +43,6 @@ public class ToggleShift extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return true;
   }
 }

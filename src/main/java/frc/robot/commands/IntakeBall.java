@@ -9,26 +9,19 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
-import frc.robot.RobotContainer;
-import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Intake;
 
-public class JoystickDrive extends CommandBase {
-  Drivetrain drive;
-  
+public class IntakeBall extends CommandBase {
   Intake intake;
-  double throttle;
-  double turn;
-  double intakeSpeed;
+  double speed;
   /**
-   * Creates a new JoystickDrive.
+   * Creates a new IntakeBall.
    */
-  public JoystickDrive() {
+  public IntakeBall() {
+    intake = Robot.robotContainer.intake;
+    addRequirements(intake);
+  // this.speed = speed;
     // Use addRequirements() here to declare subsystem dependencies.
-    this.drive = Robot.robotContainer.drivetrain;
-    this.intake = Robot.robotContainer.intake;
-    addRequirements(drive);
-  
   }
 
   // Called when the command is initially scheduled.
@@ -39,26 +32,12 @@ public class JoystickDrive extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    throttle = Robot.robotContainer.getJoy().getRawAxis(1);
-    turn = Robot.robotContainer.getWheel().getRawAxis(0);
-    
-    if(Math.abs(turn) < .0001){
-      turn = 0;
-    }
-    if(Math.abs(throttle) < .08){
-      throttle = 0;
-    }
-    drive.curveDrive(throttle, turn );
-    
-
-    
+    speed = Robot.robotContainer.getController().getRawAxis(3);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    drive.curveDrive(0, 0);
-   
   }
 
   // Returns true when the command should end.

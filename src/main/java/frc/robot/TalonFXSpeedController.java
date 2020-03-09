@@ -27,12 +27,12 @@ public class TalonFXSpeedController implements SpeedController{
 
     }
 
-    public TalonFXSpeedController(int channel1, int channel2){
+    public TalonFXSpeedController(int channel1, int channel2, boolean isInverted){
         talonFX = new TalonFX(channel1);
         talonFX2 = new TalonFX(channel2);
         talonFX2.follow(talonFX);
         speed = 0;
-        isInverted = false;
+        this.isInverted = isInverted;
         
 
     }
@@ -80,6 +80,10 @@ public class TalonFXSpeedController implements SpeedController{
 
     public int getEncoderTicks(){
         return talonFX.getSelectedSensorPosition();
+    }
+
+    public double getEncoderVel(){
+        return talonFX.getSelectedSensorVelocity();
     }
 
     public void resetEncoder(){

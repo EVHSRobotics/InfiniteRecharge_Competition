@@ -7,6 +7,8 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.kauailabs.navx.frc.AHRS;
 
@@ -22,36 +24,56 @@ import frc.robot.TalonFXSpeedController;
 public class Drivetrain extends SubsystemBase {
   private TalonFXSpeedController leftTalons;
   private TalonFXSpeedController rightTalons;
+  private TalonFXSpeedController leftTalon1;
+  private TalonFXSpeedController rightTalon1;
+  private TalonFXSpeedController leftTalon2;
+  private TalonFXSpeedController rightTalon2;
   private SpeedControllerGroup leftGroup;
   private SpeedControllerGroup rightGroup;
   private DifferentialDrive dDrive;
 
   private DoubleSolenoid shifter;
-  private DoubleSolenoid shifter2;
   private Value fast = Value.kForward;
   private Value slow = Value.kReverse;
   private Value off = Value.kOff;
   private String gearState;
   private boolean isFast = false;
 
+  private TalonFX leftTalon1_f;
+  private TalonFX rightTalon1_f;
+  private TalonFX leftTalon2_f;
+  private TalonFX rightTalon2_f;
+
   private AHRS navX;
   /**
    * Creates a new Drivetrain.
    */
   public Drivetrain() {
-    leftTalons = new TalonFXSpeedController(Constants.LEFT_MOTOR_1, Constants.LEFT_MOTOR_2);
-    rightTalons = new TalonFXSpeedController(Constants.RIGHT_MOTOR_1, Constants.RIGHT_MOTOR_2);
+    // leftTalon1 = new TalonFXSpeedController(Constants.LEFT_MOTOR_1);
+    // leftTalon2 = new TalonFXSpeedController(Constants.LEFT_MOTOR_2);
+    // leftTalon1.setInverted(true);
+    // leftTalon2.setInverted(true);
+    // leftTalons = new TalonFXSpeedController(Constants.LEFT_MOTOR_1, Constants.LEFT_MOTOR_2, false);
+    // rightTalons = new TalonFXSpeedController(Constants.RIGHT_MOTOR_1, Constants.RIGHT_MOTOR_2, true);
    
+    
+    // leftGroup = new SpeedControllerGroup(leftTalon1, leftTalon2);
+    // rightGroup = new SpeedControllerGroup(rightTalons);
 
-    leftGroup = new SpeedControllerGroup(leftTalons);
-    rightGroup = new SpeedControllerGroup(rightTalons);
-
-    dDrive = new DifferentialDrive(leftGroup, rightGroup);
+   // dDrive = new DifferentialDrive(leftGroup, rightGroup);
 
     shifter = new DoubleSolenoid(Constants.shifterUp1, Constants.shifterDown1);
-    shifter2 = new DoubleSolenoid(Constants.shifterUp2, Constants.shifterDown2);
-
     navX = new AHRS(Port.kUSB1);
+
+    leftTalon1_f = new TalonFX(Constants.LEFT_MOTOR_1);
+    leftTalon2_f = new TalonFX(Constants.LEFT_MOTOR_2);
+    rightTalon1_f = new TalonFX(Constants.RIGHT_MOTOR_1);
+    rightTalon2_f = new TalonFX(Constants.RIGHT_MOTOR_2);
+
+    leftTalon1_f.setInverted(true);
+    leftTalon2_f.setInverted(true);
+    leftTalon2_f.follow(leftTalon1_f);
+    rightTalon2_f.follow(rightTalon1_f);
 
   }
 
@@ -60,9 +82,15 @@ public class Drivetrain extends SubsystemBase {
     // This method will be called once per scheduler run
   }
 
-  public void drive(double speed, double turn) {
-    dDrive.curvatureDrive(speed, turn, Math.abs(speed) < .1);
+  public void curveDrive(double speed, double turn) {
+    leftTalon1_f.set(ControlMode.PercentOutput, speed);
+    rightTalon1_f.set(ControlMode.PercentOutput, speed);
+   // dDrive.curvatureDrive(speed, turn, Math.abs(speed) < .1);
   }
+  public void arcadeDrive(double speed, double turn){
+    dDrive.arcadeDrive(speed, turn);
+  }
+
 
   public void toggleShift() {
     if (isFast)
@@ -75,21 +103,22 @@ public class Drivetrain extends SubsystemBase {
   public void applyShift(String gear) {
     if (gear.equals("fast")) {
       gearState = "fast";
-      shifter.set(fast);
-      shifter2.set(fast);
       System.out.println("shifted to fast");
+      shifter.set(fast);
+      
     } else if (gear.equals("slow")) {
       gearState = "slow";
-      shifter.set(slow);
-      shifter2.set(slow);
       System.out.println("shifted to slow");
+      shifter.set(slow);
+      
     }
   }
 
   public void stopShift() {
     shifter.set(off);
-    shifter2.set(off);
   }
+
+  
 
   public void resetEncoders(){
     leftTalons.resetEncoder();
@@ -99,10 +128,13 @@ public class Drivetrain extends SubsystemBase {
   public int getAvgEncoder(){
     return (leftTalons.getEncoderTicks() - rightTalons.getEncoderTicks())/2;
   }
-  public double returnAngle() {
+  public double getAngle() {
     return navX.getAngle();
   }
 
+  public double getAvgSpeed(){
+    return (leftTalons.getEncoderVel() - rightTalons.getEncoderVel())/2;
+  }
   public void resetAngle() {
     navX.reset();
   }

@@ -40,7 +40,7 @@ public class TurnAngle extends CommandBase {
     drive = Robot.robotContainer.drivetrain;
     drive.resetAngle();
     targetCount = 0;
-    error = target - drive.returnAngle();
+    error = target - drive.getAngle();
 
     lastError = error;
     errorInt = 0;
@@ -53,12 +53,12 @@ public class TurnAngle extends CommandBase {
     kP = .008;
     kI = 0;// 0.0001;
     kD = 0.015;
-    error = target - drive.returnAngle();
+    error = target - drive.getAngle();
     pTerm = error * kP;
     iTerm = errorInt * kI;
     dTerm = (error - lastError)*kD;
  //   SmartDashboard.putNumber("Angle turn ERROr", error);
-    drive.drive(0, pTerm + iTerm + dTerm);
+    //drive.arcadeDrive(0, pTerm + iTerm + dTerm);
     errorInt += error;
 
     if(errorInt > maxError){
@@ -70,8 +70,8 @@ public class TurnAngle extends CommandBase {
     if(Math.abs(error) > .1 && error * errorInt < 0){
       error = 0;
     }
-    SmartDashboard.putNumber("Current angle", drive.returnAngle());
-    System.out.println("Current angle " + drive.returnAngle());
+    SmartDashboard.putNumber("Current angle", drive.getAngle());
+    System.out.println("Current angle " + drive.getAngle());
     lastError = error;
 
    
@@ -85,7 +85,7 @@ public class TurnAngle extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (Math.abs(target - drive.returnAngle()) <= .5 ){
+    if (Math.abs(target - drive.getAngle()) <= .5 ){
       targetCount++;
     }else{
       targetCount = 0;

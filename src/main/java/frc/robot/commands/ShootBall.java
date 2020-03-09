@@ -12,13 +12,16 @@ import frc.robot.Robot;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Storage;
 import frc.robot.subsystems.Turret;
 
 public class ShootBall extends CommandBase {
   private Shooter shooter;
   private Turret turret;
   private Intake intake;
-  private double shootThrottle, turretThrottle, manualTurret;
+  private Storage storage;
+  private double shootThrottle, turretThrottle, manualTurret, intakeThrottle;
+  private double storageThrottle_2;
   /**
    * Creates a new ShootBall.
    */
@@ -29,6 +32,7 @@ public class ShootBall extends CommandBase {
     
     turret = Robot.robotContainer.turret;
     intake = Robot.robotContainer.intake;
+    storage = Robot.robotContainer.storage;
   }
 
   // Called when the command is initially scheduled.
@@ -40,23 +44,35 @@ public class ShootBall extends CommandBase {
   @Override
   public void execute() {
     shootThrottle = Robot.robotContainer.getController().getRawAxis(2);
+    //storageThrottle_2 = Robot.robotContainer.getController().getRawAxis(3);
     turretThrottle =  Robot.robotContainer.getController().getRawAxis(3);
-    manualTurret = Robot.robotContainer.getController().getRawAxis(4);
+    manualTurret = Robot.robotContainer.getController().getRawAxis(0);
+    //intakeThrottle = Robot.robotContainer.getController().getRawAxis(2);
   
-    shooter.outtakeBall(shootThrottle);
-    turret.turnTurret(turretThrottle, manualTurret);
-
-    if (Robot.robotContainer.getJoy().getRawAxis(3) > 0) {
-      shooter.outtakeBall(1);
-      System.out.println("shooter vel " + shooter.getShooterVel());
-      if (shooter.getShooterVel() >= 9500) {
-        System.out.println("reached shooter velocity");
-        // shooter.intake();
-        intake.intakeBall(1);
-      }
-    } else {
-      shooter.outtakeBall(0);
+    
+    
+    if(Math.abs(turretThrottle) < .2){
+      turretThrottle = 0;
     }
+    //System.out.println("Manual turret throttle: " + manualTurret/3);
+
+    shooter.outtakeBall(shootThrottle/2);
+    turret.turnTurret(turretThrottle, manualTurret);
+    storage.intakeStorage(storageThrottle_2);
+    //intake.intakeBall(intakeThrottle);
+    
+
+    // if (Robot.robotContainer.getJoy().getRawAxis(3) > 0) {
+    //   shooter.outtakeBall(1);
+    //   System.out.println("shooter vel " + shooter.getShooterVel());
+    //   if (shooter.getShooterVel() >= 9500) {
+    //     System.out.println("reached shooter velocity");
+    //     // shooter.intake();
+    //     intake.intakeBall(1);
+    //   }
+    // } else {
+    //   shooter.outtakeBall(0);
+    // }
 
   }
 
