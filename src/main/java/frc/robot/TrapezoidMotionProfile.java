@@ -43,9 +43,9 @@ public class TrapezoidMotionProfile {
         this.initPos = initPos;
         currState = trapState.accState;
 
-        // if(pTarget > initPos){
-        //     pTarget = -pTarget;
-        // }
+        if(pTarget > initPos){
+            pTarget = -pTarget;
+        }
         
       
     }
