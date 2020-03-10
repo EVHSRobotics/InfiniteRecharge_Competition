@@ -23,7 +23,7 @@ public class Robot extends TimedRobot {
 
   public static RobotContainer robotContainer;
 
-  public static Compressor compressor;
+  //public static Compressor compressor;
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
@@ -33,7 +33,7 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     robotContainer = new RobotContainer();
-    compressor = new Compressor(0);
+    //compressor = new Compressor(0);
   }
 
   /**

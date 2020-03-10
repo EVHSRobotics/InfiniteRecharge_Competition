@@ -22,17 +22,16 @@ public class TalonFXSpeedController implements SpeedController{
     public TalonFXSpeedController(int channel){
         talonFX = new TalonFX(channel);
         speed = 0;
-        isInverted = false;
         
 
     }
 
-    public TalonFXSpeedController(int channel1, int channel2, boolean isInverted){
+    public TalonFXSpeedController(int channel1, int channel2){
         talonFX = new TalonFX(channel1);
         talonFX2 = new TalonFX(channel2);
         talonFX2.follow(talonFX);
-        speed = 0;
-        this.isInverted = isInverted;
+        //speed = 0;
+        //this.isInverted = isInverted;
         
 
     }

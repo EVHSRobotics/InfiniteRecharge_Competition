@@ -10,6 +10,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import frc.robot.Autonomous.AutoTest;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.IntakeBall;
 import frc.robot.commands.JoystickDrive;
@@ -46,6 +47,7 @@ public class RobotContainer {
   public static Turret turret = new Turret();
   public static Intake intake = new Intake();
   public static Storage storage = new Storage();
+  public static AutoTest auto = new AutoTest();
 
   public static JoystickDrive joystickDrive = new JoystickDrive();
   public static IntakeBall intakeBall = new IntakeBall();
@@ -102,7 +104,7 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return m_autoCommand;
+    return auto;
   }
 
   public Joystick getJoy() {

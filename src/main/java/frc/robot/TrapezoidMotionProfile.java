@@ -43,9 +43,9 @@ public class TrapezoidMotionProfile {
         this.initPos = initPos;
         currState = trapState.accState;
 
-        if(pTarget < initPos){
-            pTarget = -pTarget;
-        }
+        // if(pTarget > initPos){
+        //     pTarget = -pTarget;
+        // }
         
       
     }
@@ -83,11 +83,14 @@ public class TrapezoidMotionProfile {
           currState = trapState.constantState;
           vRef = vMax;
         }
+        System.out.println("vref " + vRef);
         if (currState != trapState.brakeState && pRef > pStop) {
           currState = trapState.brakeState;
         }
     
         if (vRef <= 0 || pRef > pTarget) {
+          System.out.println("pref :  " + pRef);
+          System.out.println("pTarget: " + pTarget);
           vRef = 0;
           pRef = pTarget;
           currState = trapState.done;

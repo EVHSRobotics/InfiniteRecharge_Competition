@@ -65,7 +65,7 @@ public class Turret extends SubsystemBase {
 
   public void turnTurret(double autoTrigger, double manual) {
     posErr = vision.getX();
-    System.out.println("X: " + posErr);
+    //System.out.println("X: " + posErr);
     intErr += posErr;
 
     //fric = (kf / deadZone) * posErr;

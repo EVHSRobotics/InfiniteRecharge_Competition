@@ -40,7 +40,7 @@ public class DriveDistance extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-
+  // drive.resetEncoders();
     count = 0;
     currentV = 0;
     initEncoder = drive.getAvgEncoder();
@@ -49,22 +49,23 @@ public class DriveDistance extends CommandBase {
     kI = 0.0;
     kF = 1;
     initAngle = drive.getAngle();
-    turnKP = 0.015;
-    trap = new TrapezoidMotionProfile(3000, 700, target + initEncoder, initEncoder);
+    turnKP = 0;/// 0.015;
+    trap = new TrapezoidMotionProfile(3500, 600, target + initEncoder, initEncoder);
     System.out.println("drive distance initialized");
+    System.out.println("init encodeR: " + initEncoder);
 
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    //trap.updateProfile();
+    trap.updateProfile();
     currentV = drive.getAvgSpeed();
     currPos = drive.getAvgEncoder() - initEncoder;
-    kP = 0.0005;
+    kP = 1;
     kD = 0.0;
     kI = 0.0;
-    kF = 1;
+    kF = 5;
 
     error = trap.getpRef() - currPos;
     diffError = trap.getvRef() - currentV;
@@ -78,18 +79,20 @@ public class DriveDistance extends CommandBase {
     if (normalizedSpeed > .2) {
       normalizedSpeed = .2;
     }
-    if (normalizedSpeed < -.2) {
+    if (normalizedSpeed < -2) {
       normalizedSpeed = -.2;
     }
-    //drive.arcadeDrive(normalizedSpeed, turnKP * (initAngle - drive.getAngle()));
+    drive.arcadeDrive(normalizedSpeed, turnKP * (initAngle - drive.getAngle()));
     System.out.println("Current position: " + currPos);
+    System.out.println("Current encoder: " + drive.getAvgEncoder());
+    System.out.println("Speed: " + normalizedSpeed);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     System.out.println("Reached Distance");
-    //drive.arcadeDrive(0, 0);
+    drive.arcadeDrive(0, 0);
     trap.end();
 
   }

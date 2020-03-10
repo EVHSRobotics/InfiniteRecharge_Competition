@@ -55,38 +55,33 @@ public class Drivetrain extends SubsystemBase {
     rightTalon2 = new TalonFXSpeedController(Constants.RIGHT_MOTOR_2);
     // leftTalon1.setInverted(true);
     // leftTalon2.setInverted(true);
-    // leftTalons = new TalonFXSpeedController(Constants.LEFT_MOTOR_1, Constants.LEFT_MOTOR_2, false);
-    // rightTalons = new TalonFXSpeedController(Constants.RIGHT_MOTOR_1, Constants.RIGHT_MOTOR_2, true);
+    leftTalons = new TalonFXSpeedController(Constants.LEFT_MOTOR_1, Constants.LEFT_MOTOR_2);
+    rightTalons = new TalonFXSpeedController(Constants.RIGHT_MOTOR_1, Constants.RIGHT_MOTOR_2);
    
     
-    leftGroup = new SpeedControllerGroup(leftTalon1, leftTalon2);
-    rightGroup = new SpeedControllerGroup(rightTalon1, rightTalon2);
+    leftGroup = new SpeedControllerGroup(leftTalons);
+    rightGroup = new SpeedControllerGroup(rightTalons);
 
-    dDrive = new DifferentialDrive(leftGroup, rightGroup);
+      dDrive = new DifferentialDrive(leftGroup, rightGroup);
 
     shifter = new DoubleSolenoid(Constants.shifterUp1, Constants.shifterDown1);
     navX = new AHRS(Port.kUSB1);
 
-    // leftTalon1_f = new TalonFX(Constants.LEFT_MOTOR_1);
-    // leftTalon2_f = new TalonFX(Constants.LEFT_MOTOR_2);
-    // rightTalon1_f = new TalonFX(Constants.RIGHT_MOTOR_1);
-    // rightTalon2_f = new TalonFX(Constants.RIGHT_MOTOR_2);
 
-    // leftTalon1_f.setInverted(true);
-    // leftTalon2_f.setInverted(true);
-    // leftTalon2_f.follow(leftTalon1_f);
-    // rightTalon2_f.follow(rightTalon1_f);
-
-  }
+ }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
   }
+  public void setSpeed(double speed){
+    System.out.println("Setting speed");
+    rightTalon1_f.set(ControlMode.PercentOutput, speed);
+    rightTalon2_f.set(ControlMode.PercentOutput, speed);
+   // rightTalon1_f.set(ControlMode.PercentOutput, speed);
+  }
 
   public void curveDrive(double speed, double turn) {
-    // leftTalon1_f.set(ControlMode.PercentOutput, speed);
-    // rightTalon1_f.set(ControlMode.PercentOutput, speed);
     dDrive.curvatureDrive(speed, turn, Math.abs(speed) < .1);
   }
   public void arcadeDrive(double speed, double turn){

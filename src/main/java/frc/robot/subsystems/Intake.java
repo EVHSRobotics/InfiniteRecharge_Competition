@@ -55,7 +55,7 @@ public class Intake extends SubsystemBase {
   public void intakeBall(double speed){
   
     intakeMotor.set(ControlMode.PercentOutput, speed); 
-    System.out.println("Intake motor velocity: " + intakeMotor.getSelectedSensorVelocity());
+   // System.out.println("Intake motor velocity: " + intakeMotor.getSelectedSensorVelocity());
 
   }
 

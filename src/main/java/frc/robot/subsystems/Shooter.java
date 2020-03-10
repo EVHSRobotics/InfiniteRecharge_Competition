@@ -30,8 +30,8 @@ public class Shooter extends SubsystemBase {
    * NEgative is forwards
    */
   public Shooter() {
-    shooterMotor1 = new TalonSRX(Constants.SHOOTER1_MOTOR);
-    shooterMotor2 = new TalonSRX(Constants.SHOOTER2_MOTOR);
+    shooterMotor1 = new TalonSRX(14);
+    shooterMotor2 = new TalonSRX(15);
     shooterMotor2.setInverted(true);
     
   }
@@ -42,11 +42,11 @@ public class Shooter extends SubsystemBase {
   }
 
   public void outtakeBall(double speed) {
-    shooterMotor1.set(ControlMode.Velocity, speed*20000);
-    shooterMotor2.set(ControlMode.Velocity, speed*20000);
-
-   // System.out.println("Shooter 1 Encoder: " + shooterMotor1.getSelectedSensorPosition() );
-
+    //System.out.println("running shooter");
+    shooterMotor1.set(ControlMode.Velocity, speed*18000);
+    shooterMotor2.set(ControlMode.Velocity, speed*18000);
+    // shooterMotor1.set(ControlMode.PercentOutput, speed);
+    // shooterMotor2.set(ControlMode.PercentOutput, speed);
   }
 
   public double getShooterVel() {
