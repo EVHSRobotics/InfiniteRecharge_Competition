@@ -30,6 +30,7 @@ public class Turret extends SubsystemBase {
   double motorOutput;
   private DigitalInput limitSwitch_left;
   private DigitalInput limitSwitch_right;
+  double encoderTicks;
 
   /**
    * Creates a new Turret.
@@ -39,7 +40,7 @@ public class Turret extends SubsystemBase {
     this.vision = Robot.robotContainer.vision;
     limitSwitch_left = new DigitalInput(1);
     limitSwitch_right = new DigitalInput(0);
-
+    
     // kp = .03;
     // kf = 0.1;
     // ki = .0025;
@@ -60,10 +61,12 @@ public class Turret extends SubsystemBase {
 
   @Override
   public void periodic() {
+    //System.out.println("turret Ecnoder: " + turretMotor.getSelectedSensorPosition());
   
   }
 
   public void turnTurret(double autoTrigger, double manual) {
+    encoderTicks = turretMotor.getSelectedSensorPosition();
     posErr = vision.getX();
     //System.out.println("X: " + posErr);
     intErr += posErr;
@@ -86,7 +89,11 @@ public class Turret extends SubsystemBase {
       intErr = 0;
     }
     motorOutput = autoTrigger * (intErr * ki + posErr * kp + fric) + manual*.5;
+    if(Math.abs(encoderTicks) > 24000){
+      motorOutput /= 5;
+    }
     if (getLeftLimitSwitchStatus() == false && motorOutput > 0) {
+      
       motorOutput = -.25;
     }
     if (getRightLimitSwitchStatus() == false && motorOutput < 0) {

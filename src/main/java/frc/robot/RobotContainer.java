@@ -17,6 +17,8 @@ import frc.robot.commands.JoystickDrive;
 import frc.robot.commands.RunStorage;
 import frc.robot.commands.ShootBall;
 import frc.robot.commands.ToggleShift;
+import frc.robot.commands.WinchRun;
+import frc.robot.subsystems.Climb;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.Intake;
@@ -47,11 +49,13 @@ public class RobotContainer {
   public static Turret turret = new Turret();
   public static Intake intake = new Intake();
   public static Storage storage = new Storage();
+  public static Climb climb = new Climb();
   public static AutoTest auto = new AutoTest();
 
   public static JoystickDrive joystickDrive = new JoystickDrive();
   public static IntakeBall intakeBall = new IntakeBall();
   public static ShootBall shootBall = new ShootBall();
+  public static WinchRun winchRun = new WinchRun();
 
   private XboxController controller;
   private Joystick wheel;

@@ -18,7 +18,7 @@ package frc.robot;
 public final class Constants {
 	//Motors
 	public static final int LEFT_MOTOR_1 = 0;
-	public static final int LEFT_MOTOR_2 = 16; //inverted
+	public static final int LEFT_MOTOR_2 = 16; //inerted
 	public static final int RIGHT_MOTOR_1 = 3;
 	public static final int RIGHT_MOTOR_2 = 2;
 	public static final int INTAKE_MOTOR = 10;
@@ -27,6 +27,9 @@ public final class Constants {
 	public static final int TURRET_MOTOR = 9;
 	public static final int SHOOTER1_MOTOR = 14;
 	public static final int SHOOTER2_MOTOR = 15;
+	public static final int WINCH_MOTOR_1 = 12;
+	public static final int WINCH_MOTOR_2 = 13;
+
 
 
 	//Pneumatics

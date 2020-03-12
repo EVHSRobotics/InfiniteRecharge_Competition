@@ -43,10 +43,10 @@ public class Shooter extends SubsystemBase {
 
   public void outtakeBall(double speed) {
     //System.out.println("running shooter");
-    shooterMotor1.set(ControlMode.Velocity, speed*18000);
-    shooterMotor2.set(ControlMode.Velocity, speed*18000);
-    // shooterMotor1.set(ControlMode.PercentOutput, speed);
-    // shooterMotor2.set(ControlMode.PercentOutput, speed);
+    // shooterMotor1.set(ControlMode.Velocity, speed*18000);
+    // shooterMotor2.set(ControlMode.Velocity, speed*18000);
+    shooterMotor1.set(ControlMode.PercentOutput, speed);
+    shooterMotor2.set(ControlMode.PercentOutput, speed);
   }
 
   public double getShooterVel() {
