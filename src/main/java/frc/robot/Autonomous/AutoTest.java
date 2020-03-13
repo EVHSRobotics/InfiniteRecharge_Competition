@@ -24,7 +24,7 @@ public class AutoTest extends SequentialCommandGroup {
     // super(new FooCommand(), new BarCommand());
     super();
     addCommands(
-      new DriveDistance(1000));
+      new DriveDistance(3000));
     //   new TurnAngle(180));
   }
 

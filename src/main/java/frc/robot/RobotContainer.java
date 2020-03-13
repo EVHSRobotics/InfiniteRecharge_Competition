@@ -98,6 +98,7 @@ public class RobotContainer {
     intakeBWD.whileHeld(new RunStorage(false, true, .5));
    //toggleShift.whenPressed(new ToggleShift());
     toggleShift.whenPressed(() -> drivetrain.toggleShift());
+    buttonA.whenPressed(() -> intake.toggleShift());
    
   }
 

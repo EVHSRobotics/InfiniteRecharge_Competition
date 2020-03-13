@@ -11,6 +11,8 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -22,9 +24,16 @@ public class Intake extends SubsystemBase {
   private DigitalInput banner;
   private DigitalInput banner2;
   private boolean ballLoaded;
+  boolean isFast;
+  String gearState;
+  DoubleSolenoid shifter;
+  private Value fast = Value.kForward;
+  private Value slow = Value.kReverse;
+  private Value off = Value.kOff;
   
   public Intake() {
     intakeMotor = new VictorSPX(Constants.INTAKE_MOTOR);
+    shifter = new DoubleSolenoid(Constants.intakeUp, Constants.intakeDown);
     // banner = new DigitalInput(Constants.BANNER_1);
     // banner2 = new DigitalInput(Constants.BANNER_2);
 
@@ -73,6 +82,29 @@ public class Intake extends SubsystemBase {
     intakeMotor.set(ControlMode.PercentOutput, speed);
 
   }
+
+  public void toggleShift() {
+    if (isFast)
+      applyShift("slow");
+    else if (!isFast)
+      applyShift("fast");
+    isFast = !isFast;
+  }
+
+  public void applyShift(String gear) {
+    if (gear.equals("fast")) {
+      gearState = "fast";
+      System.out.println("shifted to fast");
+      shifter.set(fast);
+      
+    } else if (gear.equals("slow")) {
+      gearState = "slow";
+      System.out.println("shifted to slow");
+      shifter.set(slow);
+      
+    }
+  }
+
 
 
 }

@@ -29,6 +29,7 @@ public final class Constants {
 	public static final int SHOOTER2_MOTOR = 15;
 	public static final int WINCH_MOTOR_1 = 12;
 	public static final int WINCH_MOTOR_2 = 13;
+	public static final int MAIN_STORAGE_MOTOR = 11;
 
 
 
@@ -37,8 +38,8 @@ public final class Constants {
 	public static final int shifterDown1 = 0;
 	public static final int shifterUp2 = 0;
 	public static final int shifterDown2 = 0;
-	public static final int intakeUp = 0;
-	public static final int intakeDown = 0;
+	public static final int intakeUp = 2;
+	public static final int intakeDown = 3;
 
 	//OI
 	public static final int JOY = 0;
@@ -52,6 +53,7 @@ public final class Constants {
 	public static final int BANNER_1= 0;
 	public static final int BANNER_2 = 0;
 	public static final int SHOOTER_BANNER = 0;
+
 	
 
 	//push to comp 

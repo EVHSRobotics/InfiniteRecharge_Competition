@@ -32,27 +32,28 @@ public class DriveDistance extends CommandBase {
     // Use addRequirements() here to declare subsystem dependencies.
     drive = Robot.robotContainer.drivetrain;
     addRequirements(drive);
-
-    target = distance;
-
-  }
-
-  // Called when the command is initially scheduled.
-  @Override
-  public void initialize() {
- 
+    initEncoder = drive.getAvgEncoder();
+    target = distance  + initEncoder;
     count = 0;
     currentV = 0;
-    initEncoder = drive.getAvgEncoder();
+   
     kP = 0.0005;
     kD = 0.0;
     kI = 0.0;
     kF = 1;
     initAngle = drive.getAngle();
     turnKP = 0;/// 0.015;
-    trap = new TrapezoidMotionProfile(3000, 800, target + initEncoder, initEncoder);
+    trap = new TrapezoidMotionProfile(3000, 800, target, initEncoder);
     System.out.println("drive distance initialized");
     System.out.println("init encodeR: " + initEncoder);
+    System.out.println("Target: " + target);
+  }
+
+  // Called when the command is initially scheduled.
+  @Override
+  public void initialize() {
+ 
+   
 
   }
 
@@ -61,7 +62,7 @@ public class DriveDistance extends CommandBase {
   public void execute() {
     trap.updateProfile();
     currentV = drive.getAvgSpeed();
-    currPos = drive.getAvgEncoder() - initEncoder;
+    currPos = drive.getAvgEncoder();
   
     error = trap.getpRef() - currPos;
     diffError = trap.getvRef() - currentV;

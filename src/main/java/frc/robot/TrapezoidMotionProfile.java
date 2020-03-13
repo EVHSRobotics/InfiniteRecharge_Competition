@@ -17,11 +17,12 @@ import edu.wpi.first.wpilibj.Timer;
 public class TrapezoidMotionProfile {
    
    
-    double vRef, pRef;
+    double vRef, pRef, trapTarget;
     double vMax;
     double aRef, aMax;
     double pStop, pTarget;
     double initPos;
+    boolean isInverted;
     enum trapState {
         accState, constantState, brakeState, done
       };
@@ -33,7 +34,8 @@ public class TrapezoidMotionProfile {
     public TrapezoidMotionProfile(double vMax, double aMax, double pTarget, double initPos){
         timer = new Timer();
         timer.start();
-      
+        timer.reset();
+        prevTime = 0;
     
         pRef = 0;
         vRef = 0;
@@ -44,7 +46,11 @@ public class TrapezoidMotionProfile {
         currState = trapState.accState;
 
         if(pTarget > initPos){
-            pTarget = -pTarget;
+          isInverted = false;
+          trapTarget = pTarget - initPos;
+        }else{
+          isInverted  = true;
+          trapTarget = initPos - pTarget;
         }
         
       
@@ -64,20 +70,23 @@ public class TrapezoidMotionProfile {
           break;
         case done:
           aRef = 0;
-          pRef = pTarget;
+          pRef = trapTarget;
           vRef = 0;
           return;
           
         }
-    
-        currTime = timer.get();
-        timeElapsed = currTime - prevTime;
-        prevTime = currTime;
+       
+        //currTime = timer.get();
+        //System.out.println("currTime: " + currTime);
+        //System.out.println("prevTime: " + prevTime);
+        timeElapsed = 0.02;//currTime - prevTime;
+        //prevTime = currTime;
+     
     
         vRef += aRef * timeElapsed;
         pRef += vRef * timeElapsed;
     
-        pStop = pTarget - (.5 * vRef * vRef) / aMax;
+        pStop = trapTarget - (.5 * vRef * vRef) / aMax;
     
         if (currState == trapState.accState && vRef > vMax) {
           currState = trapState.constantState;
@@ -88,15 +97,17 @@ public class TrapezoidMotionProfile {
           currState = trapState.brakeState;
         }
     
-        if (vRef <= 0 || pRef > pTarget) {
+        if (vRef <= 0 || pRef > trapTarget) {
           System.out.println("pref :  " + pRef);
-          System.out.println("pTarget: " + pTarget);
+          System.out.println("trapTarget: " + trapTarget);
           vRef = 0;
-          pRef = pTarget;
+          pRef = trapTarget;
           currState = trapState.done;
         }
     
-        // System.out.println("time elasped: " + timeElapsed);
+         System.out.println("time elapsed: " + timeElapsed);
+       
+        
         // System.out.println("aRef: " + aRef);
         
       } 
@@ -109,7 +120,9 @@ public class TrapezoidMotionProfile {
       }
 
     public double getvRef() {
-        return vRef;
+      if(isInverted)
+        return -vRef;
+      return vRef;
     }
 
     public void setvRef(double vRef) {
@@ -117,7 +130,9 @@ public class TrapezoidMotionProfile {
     }
 
     public double getpRef() {
-        return pRef;
+      if(isInverted)
+        return initPos - pRef;
+      return initPos + pRef;
     }
 
     public void setpRef(double pRef) {
