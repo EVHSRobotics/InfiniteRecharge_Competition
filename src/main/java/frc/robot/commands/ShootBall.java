@@ -43,23 +43,21 @@ public class ShootBall extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    shootThrottle = Robot.robotContainer.getController().getRawAxis(2);
-    storageThrottle_2 = Robot.robotContainer.getController().getRawAxis(3);
-    // turretThrottle =  Robot.robotContainer.getController().getRawAxis(2);
-   //  manualTurret = Robot.robotContainer.getController().getRawAxis(0);
-    mainStorageThrottle = Robot.robotContainer.getController().getRawAxis(5);
-    intakeThrottle = Robot.robotContainer.getController().getRawAxis(0);
+    //shootThrottle = Robot.robotContainer.getController().getRawAxis(2);
+   // storageThrottle_2 = Robot.robotContainer.getController().getRawAxis(3);
+   turretThrottle =  Robot.robotContainer.getController().getRawAxis(3);
+    manualTurret = Robot.robotContainer.getController().getRawAxis(0);
+    // mainStorageThrottle = Robot.robotContainer.getController().getRawAxis(5);
+    // intakeThrottle = Robot.robotContainer.getController().getRawAxis(0);
     
 
 
-    if(Math.abs(manualTurret) < .2){
-      turretThrottle = 0;
-    }
+    
     //System.out.println("Manual turret throttle: " + manualTurret/3);
    
      shooter.outtakeBall(shootThrottle);
-    
-   // turret.turnTurret(-turretThrottle, manualTurret);
+    //System.out.println("turrent throttle" + turretThrottle);
+    turret.turnTurret(-turretThrottle, manualTurret);
     storage.turretStorage(storageThrottle_2);
     storage.intakeStorage(mainStorageThrottle);
     intake.intakeBall(intakeThrottle);

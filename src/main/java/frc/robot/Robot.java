@@ -94,7 +94,7 @@ public class Robot extends TimedRobot {
     }
      robotContainer.joystickDrive.schedule();
      robotContainer.shootBall.schedule();
-     robotContainer.intakeBall.schedule();
+    // robotContainer.intakeBall.schedule();
      //robotContainer.winchRun.schedule();
   }
 

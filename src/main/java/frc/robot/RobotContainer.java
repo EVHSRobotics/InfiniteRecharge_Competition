@@ -94,11 +94,12 @@ public class RobotContainer {
     toggleShift = new JoystickButton(joy, Constants.TOGGLE_SHIFT);
     buttonA = new JoystickButton(controller, 1);
 
-    intakeFWD.whileHeld(new RunStorage(true, false, .5));
-    intakeBWD.whileHeld(new RunStorage(false, true, .5));
-   //toggleShift.whenPressed(new ToggleShift());
+  //   intakeFWD.whileHeld(new RunStorage(true, false, .5));
+  //   intakeBWD.whileHeld(new RunStorage(false, true, .5));
+  //  //toggleShift.whenPressed(new ToggleShift());
     toggleShift.whenPressed(() -> drivetrain.toggleShift());
-    buttonA.whenPressed(() -> intake.toggleShift());
+    //buttonA.whenPressed(() -> intake.toggleShift());
+    buttonA.whileHeld(new IntakeBall());
    
   }
 

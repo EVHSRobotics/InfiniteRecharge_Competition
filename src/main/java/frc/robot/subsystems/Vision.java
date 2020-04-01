@@ -48,7 +48,7 @@ public class Vision extends SubsystemBase {
 
   public double getX() {
 
-    x = tx.getDouble(0);// + 2.4;
+    x = tx.getDouble(0);
     
     if(tv.getBoolean(false)){
       x = 0;

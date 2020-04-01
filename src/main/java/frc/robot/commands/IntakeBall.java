@@ -10,15 +10,18 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Storage;
 
 public class IntakeBall extends CommandBase {
   Intake intake;
+  Storage storage;
   double speed;
   /**
    * Creates a new IntakeBall.
    */
   public IntakeBall() {
     intake = Robot.robotContainer.intake;
+    storage = Robot.robotContainer.storage;
     addRequirements(intake);
   // this.speed = speed;
     // Use addRequirements() here to declare subsystem dependencies.
@@ -36,11 +39,16 @@ public class IntakeBall extends CommandBase {
   public void execute() {
     //speed = Robot.robotContainer.getController().getRawAxis(3);
     //intake.intakeBall(speed);
+    storage.intakeStorage(.5);
+    storage.turretStorage(.5);
+    
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    storage.intakeStorage(0);
+    storage.turretStorage(0);
   }
 
   // Returns true when the command should end.
