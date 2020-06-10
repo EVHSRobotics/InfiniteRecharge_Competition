@@ -10,22 +10,27 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Storage;
 
 public class RunStorage extends CommandBase {
   Intake intake;
+  Storage storage;
   private boolean backward, forward;
   private double speed;
+  private int count = 0;
   
   /**
    * Creates a new IntakeBall.
    */
-  public RunStorage(boolean bwd, boolean fwd, double speed) {
+  public RunStorage() {
     // Use addRequirements() here to declare subsystem dependencies.
     // intake = Robot.robotContainer.intake;
     // addRequirements(intake);
     // backward = bwd;
     // forward = fwd;
     // this.speed = speed;
+    storage = Robot.robotContainer.storage;
+    addRequirements(storage);
 
   }
 
@@ -44,7 +49,9 @@ public class RunStorage extends CommandBase {
     // if(forward){
     //   intake.intakeBall(speed);
     // }
-
+    
+    System.out.println("ball sensor working: " + storage.ballDetect());
+    storage.runStorage();
   }
 
   // Called once the command ends or is interrupted.

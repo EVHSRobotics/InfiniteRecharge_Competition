@@ -22,6 +22,7 @@ public class ShootBall extends CommandBase {
   private Storage storage;
   private double shootThrottle, turretThrottle, manualTurret, intakeThrottle;
   private double storageThrottle_2, mainStorageThrottle;
+  private int counter;
   /**
    * Creates a new ShootBall.
    */
@@ -51,7 +52,7 @@ public class ShootBall extends CommandBase {
     // intakeThrottle = Robot.robotContainer.getController().getRawAxis(0);
     
 
-
+    counter++;
     
     //System.out.println("Manual turret throttle: " + manualTurret/3);
    
@@ -74,7 +75,7 @@ public class ShootBall extends CommandBase {
     // } else {
     //   shooter.outtakeBall(0);
     // }
-
+      
   }
 
   // Called once the command ends or is interrupted.

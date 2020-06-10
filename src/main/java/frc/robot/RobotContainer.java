@@ -56,6 +56,7 @@ public class RobotContainer {
   public static IntakeBall intakeBall = new IntakeBall();
   public static ShootBall shootBall = new ShootBall();
   public static WinchRun winchRun = new WinchRun();
+  public static RunStorage runStorage = new RunStorage();
 
   private XboxController controller;
   private Joystick wheel;
@@ -98,8 +99,8 @@ public class RobotContainer {
   //   intakeBWD.whileHeld(new RunStorage(false, true, .5));
   //  //toggleShift.whenPressed(new ToggleShift());
     toggleShift.whenPressed(() -> drivetrain.toggleShift());
-    //buttonA.whenPressed(() -> intake.toggleShift());
-    buttonA.whileHeld(new IntakeBall());
+    buttonA.whenPressed(() -> intake.toggleShift());
+//    buttonA.whileHeld(new IntakeBall());
    
   }
 
