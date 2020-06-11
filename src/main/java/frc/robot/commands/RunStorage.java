@@ -50,7 +50,7 @@ public class RunStorage extends CommandBase {
     //   intake.intakeBall(speed);
     // }
     
-    System.out.println("ball sensor working: " + storage.ballDetect());
+    storage.ballDetect();
     storage.runStorage();
   }
 

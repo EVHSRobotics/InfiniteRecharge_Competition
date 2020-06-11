@@ -7,6 +7,8 @@
 
 package frc.robot.subsystems;
 
+import javax.swing.text.DefaultStyledDocument.ElementSpec;
+
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
@@ -30,6 +32,7 @@ public class Storage extends SubsystemBase {
     mainStorageMotor = new VictorSPX(Constants.MAIN_STORAGE_MOTOR);
     frontBallDetect = new DigitalInput(3);
     secondBallDetect = new DigitalInput(2);
+    mainStorageMotor.set(ControlMode.PercentOutput, 0);
   }
 
   @Override
@@ -44,16 +47,72 @@ public class Storage extends SubsystemBase {
   public void intakeStorage(double speed){
     mainStorageMotor.set(ControlMode.PercentOutput, speed);
   }
-  public boolean ballDetect(){
-    return secondBallDetect.get();
+  public void ballDetect(){
+  //  System.out.println("front sensor: " + frontBallDetect.get());
+  //  System.out.println("second sensor: " + secondBallDetect.get());
+  
   }
 
   public void runStorage(){
-    if(ballDetect()){
-     // mainStorageMotor.set(ControlMode.PercentOutput, -.3);
+    boolean ballHasEntered = false;
+    boolean passedSecond = false;
+    boolean passedThird = false;
+    boolean passedTurret = false;
+    boolean runStorage = false;
+
+    boolean frontPassedSecondSensor = false;
+    if(frontBallDetect.get() == true){ //front detects ball
+        ballHasEntered = true;
+    }
+    if(secondBallDetect.get() == true){
+      passedSecond = true;
+    }
+    // if(ballHasEntered){
+    //   //runStorage = true;
+    //   if(passedTurret == false && passedThird == false && passedSecond == false){
+    //     if(passedTurret == false){
+    //       runStorage = true;
+    //     }else{
+    //       runStorage = false;
+    //     }
+    //   }
+    // }else{
+    //   runStorage = false;
+    // }
+    if(ballHasEntered){
+      runStorage = true;
+      
+    }
+    if(passedSecond == true){
+      frontPassedSecondSensor = true;
+      
+    }
+   
+    if(frontPassedSecondSensor){
+      runStorage = true;
+      System.out.println("second sensor : " + passedSecond);
+      if(passedSecond = false){
+        runStorage = false;
+      }
+    }
+    if(runStorage){
+     mainStorageMotor.set(ControlMode.PercentOutput, -.5);
+    }else{
+      mainStorageMotor.set(ControlMode.PercentOutput, 0);
     }
   }
 }
+    // if(ballHasEntered){
+    //   if(secondBallDetect.get() == false){
+    //     System.out.println("storage on");
+    //   }else{
+    //     passedSecond = true;
+    //     ba
+    //     System.out.println("second detects Ball");
+    //   }
+    // }
+  
+
 /*
 for first ball:
   - check if first sensor detects ball

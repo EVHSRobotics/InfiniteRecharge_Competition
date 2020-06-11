@@ -68,7 +68,7 @@ public class Turret extends SubsystemBase {
   public void turnTurret(double autoTrigger, double manual) {
     encoderTicks = turretMotor.getSelectedSensorPosition();
     posErr = vision.getX();
-    System.out.println("X: " + posErr);
+    //System.out.println("X: " + posErr);
     intErr += posErr;
 
     fric = (kf / deadZone) * posErr;
@@ -89,7 +89,7 @@ public class Turret extends SubsystemBase {
       intErr = 0;
     }
     motorOutput = autoTrigger * (intErr * ki + posErr * kp + fric) + manual*.5;
-    System.out.println("Motor output: " + motorOutput);
+    //System.out.println("Motor output: " + motorOutput);
     if(Math.abs(encoderTicks) > 24000){
       motorOutput /= 5;
     }
