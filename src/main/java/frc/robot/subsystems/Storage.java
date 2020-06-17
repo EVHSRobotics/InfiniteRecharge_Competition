@@ -26,13 +26,32 @@ public class Storage extends SubsystemBase {
   private TalonFX storage2;
   private DigitalInput frontBallDetect; //3
   private DigitalInput secondBallDetect; //2
-  
+  private DigitalInput fourthBallDetect; //7
+  private DigitalInput turretBallDetect; //9
+
+  boolean ballHasEntered;// = false;
+  boolean passedSecond;// = false;
+  boolean passedSecondTwice;
+  boolean passedThird = false;
+  boolean passedFourth = false;
+  boolean inTurret = false;
+
+  boolean runStorage;// = false;
+  boolean frontPassedSecondSensor = false;
+
   public Storage() {
     storage2 = new TalonFX(Constants.STORAGE2_MOTOR);
     mainStorageMotor = new VictorSPX(Constants.MAIN_STORAGE_MOTOR);
     frontBallDetect = new DigitalInput(3);
     secondBallDetect = new DigitalInput(2);
+    fourthBallDetect = new DigitalInput(7);
+    turretBallDetect = new DigitalInput(9);
     mainStorageMotor.set(ControlMode.PercentOutput, 0);
+
+    ballHasEntered = false;
+    passedSecond = false;
+    passedSecondTwice = false;
+    runStorage = false;
   }
 
   @Override
@@ -48,57 +67,81 @@ public class Storage extends SubsystemBase {
     mainStorageMotor.set(ControlMode.PercentOutput, speed);
   }
   public void ballDetect(){
-  //  System.out.println("front sensor: " + frontBallDetect.get());
-  //  System.out.println("second sensor: " + secondBallDetect.get());
+    // System.out.println("front sensor: " + frontBallDetect.get());
+    // System.out.println("second sensor: " + secondBallDetect.get());
+    // System.out.println("fourth sensor: " + fourthBallDetect.get());
+    // System.out.println("turret sensor: " + turretBallDetect.get());
   
   }
 
   public void runStorage(){
-    boolean ballHasEntered = false;
-    boolean passedSecond = false;
-    boolean passedThird = false;
-    boolean passedTurret = false;
-    boolean runStorage = false;
 
-    boolean frontPassedSecondSensor = false;
+
     if(frontBallDetect.get() == true){ //front detects ball
         ballHasEntered = true;
+       // System.out.println("ball entered");
     }
     if(secondBallDetect.get() == true){
       passedSecond = true;
+    }else{
+      passedSecond = false;
     }
-    // if(ballHasEntered){
-    //   //runStorage = true;
-    //   if(passedTurret == false && passedThird == false && passedSecond == false){
-    //     if(passedTurret == false){
-    //       runStorage = true;
-    //     }else{
-    //       runStorage = false;
-    //     }
-    //   }
-    // }else{
-    //   runStorage = false;
-    // }
+    if(fourthBallDetect.get() == true){
+      passedFourth = true;
+    }
+    if(turretBallDetect.get() == true){
+      inTurret = true;
+    }
+
+
     if(ballHasEntered){
-      runStorage = true;
-      
-    }
-    if(passedSecond == true){
-      frontPassedSecondSensor = true;
-      
-    }
-   
-    if(frontPassedSecondSensor){
-      runStorage = true;
-      System.out.println("second sensor : " + passedSecond);
-      if(passedSecond = false){
-        runStorage = false;
+      if(!passedSecond){
+        runStorage = true;
+      }else{
+       // System.out.println("front passed second sensor");
+        passedSecondTwice = true;
       }
+      
+      if(passedSecondTwice){
+      //  System.out.println("passed second again: " + passedSecond);
+        if(!passedSecond){
+          runStorage = false;
+
+        }
+      }
+      
+      
+
+      
+      // if(!inTurret){
+      //   runStorage = true;
+      // }else{
+      //   if(inTurret){
+      //     ballHasEntered = false;
+      //   }
+      //   if(!passedSecond){
+      //     runStorage = true;
+      //   }else{
+      //     if(!passedSecond){
+      //       runStorage = false;
+      //     }
+      //   }
+        
+      //   runStorage = false;
+      //   ballHasEntered = false;
+      // }
+
     }
+
+  
+
     if(runStorage){
-     mainStorageMotor.set(ControlMode.PercentOutput, -.5);
+      mainStorageMotor.set(ControlMode.PercentOutput, -.3);
+      System.out.println("storage on");
     }else{
       mainStorageMotor.set(ControlMode.PercentOutput, 0);
+     
+      System.out.println("storage off");
     }
   }
 }
@@ -135,4 +178,9 @@ for fourth ball:
 *anytime sensors 1-3 dont detect a ball, run storage until turret detects a ball
   - intake ball
   - if two balls are already present, dont run storage motor after x counts
+
+  third sensor - 5
+  fourth sensor - 9
+  turret - 7
+
   */

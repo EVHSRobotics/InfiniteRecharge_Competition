@@ -32,7 +32,7 @@ public class Drivetrain extends SubsystemBase {
   private SpeedControllerGroup rightGroup;
   private DifferentialDrive dDrive;
 
-  private DoubleSolenoid shifter;
+  //private DoubleSolenoid shifter;
   private Value fast = Value.kForward;
   private Value slow = Value.kReverse;
   private Value off = Value.kOff;
@@ -64,7 +64,7 @@ public class Drivetrain extends SubsystemBase {
 
       dDrive = new DifferentialDrive(leftGroup, rightGroup);
 
-    shifter = new DoubleSolenoid(Constants.shifterUp1, Constants.shifterDown1);
+   // shifter = new DoubleSolenoid(Constants.shifterUp1, Constants.shifterDown1);
     navX = new AHRS(Port.kUSB1);
 
 
@@ -101,18 +101,18 @@ public class Drivetrain extends SubsystemBase {
     if (gear.equals("fast")) {
       gearState = "fast";
       System.out.println("shifted to fast");
-      shifter.set(fast);
+     // shifter.set(fast);
       
     } else if (gear.equals("slow")) {
       gearState = "slow";
       System.out.println("shifted to slow");
-      shifter.set(slow);
+     // shifter.set(slow);
       
     }
   }
 
   public void stopShift() {
-    shifter.set(off);
+    //shifter.set(off);
   }
 
   
