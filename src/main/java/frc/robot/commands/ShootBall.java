@@ -59,7 +59,7 @@ public class ShootBall extends CommandBase {
      shooter.outtakeBall(shootThrottle);
     //System.out.println("turrent throttle" + turretThrottle);
     turret.turnTurret(-turretThrottle, manualTurret);
-    storage.turretStorage(storageThrottle_2);
+    //storage.turretStorage(storageThrottle_2);
     storage.intakeStorage(mainStorageThrottle);
     intake.intakeBall(intakeThrottle);
     

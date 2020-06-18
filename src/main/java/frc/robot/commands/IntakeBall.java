@@ -39,16 +39,16 @@ public class IntakeBall extends CommandBase {
   public void execute() {
     //speed = Robot.robotContainer.getController().getRawAxis(3);
     //intake.intakeBall(speed);
-    storage.intakeStorage(.5);
-    storage.turretStorage(.5);
+    //storage.intakeStorage(.5);
+  //  storage.turretStorage(.5);
     
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    storage.intakeStorage(0);
-    storage.turretStorage(0);
+    // storage.intakeStorage(0);
+    // storage.turretStorage(0);
   }
 
   // Returns true when the command should end.
