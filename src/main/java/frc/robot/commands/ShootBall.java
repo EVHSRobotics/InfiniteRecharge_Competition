@@ -56,12 +56,12 @@ public class ShootBall extends CommandBase {
     
     //System.out.println("Manual turret throttle: " + manualTurret/3);
    
-     shooter.outtakeBall(shootThrottle);
+    //shooter.outtakeBall(shootThrottle);
     //System.out.println("turrent throttle" + turretThrottle);
-    turret.turnTurret(-turretThrottle, manualTurret);
+    //turret.turnTurret(-turretThrottle, manualTurret);
     //storage.turretStorage(storageThrottle_2);
-    storage.intakeStorage(mainStorageThrottle);
-    intake.intakeBall(intakeThrottle);
+    //storage.intakeStorage(mainStorageThrottle);
+    //intake.intakeBall(intakeThrottle);
     
 
     // if (Robot.robotContainer.getJoy().getRawAxis(3) > 0) {

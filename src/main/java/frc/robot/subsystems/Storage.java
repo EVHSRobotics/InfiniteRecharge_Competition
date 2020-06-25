@@ -18,11 +18,13 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Robot;
 
 public class Storage extends SubsystemBase {
   /**
    * Creates a new Storage.
    */
+  private Intake intake;
   private VictorSPX mainStorageMotor;
   private TalonFX turretStorageMotor;
   private DigitalInput frontBallDetect; // 3
@@ -30,31 +32,33 @@ public class Storage extends SubsystemBase {
   private DigitalInput fourthBallDetect; // 7
   private DigitalInput turretBallDetect; // 9
 
-  boolean ballHasEntered;// = false;
+  boolean ballEntered;// = false;
   boolean passedSecond;// = false;
   boolean passedSecondTwice;
   boolean passedThird = false;
-  boolean passedFourth = false;
-  boolean enteringTurret = false;
-  boolean enteringSecond = false;
+  boolean atFourth = false;
+  boolean inTurret = false;
+  boolean atSecond = false;
   boolean runTurretStorgae;
-
+  int numBalls = 0;
   boolean runStorage;// = false;
   boolean frontPassedSecondSensor = false;
 
   public Storage() {
     turretStorageMotor = new TalonFX(Constants.STORAGE2_MOTOR);
     mainStorageMotor = new VictorSPX(Constants.MAIN_STORAGE_MOTOR);
+    intake = Robot.robotContainer.intake;
+
     frontBallDetect = new DigitalInput(3);
     secondBallDetect = new DigitalInput(2);
     fourthBallDetect = new DigitalInput(7);
     turretBallDetect = new DigitalInput(9);
     mainStorageMotor.set(ControlMode.PercentOutput, 0);
     turretStorageMotor.set(ControlMode.PercentOutput, 0);
-    ballHasEntered = false;
-    enteringSecond = false;
-    passedFourth = false;
-    enteringTurret = false;
+    ballEntered = false;
+    atSecond = false;
+    atFourth = false;
+    inTurret = false;
     runStorage = false;
     runTurretStorgae = false;
   }
@@ -64,8 +68,20 @@ public class Storage extends SubsystemBase {
     // This method will be called once per scheduler run
   }
 
-  public void intakeStorage(double speed) {
-    mainStorageMotor.set(ControlMode.PercentOutput, speed);
+  public void setStorageSpeed(double speed) {
+
+    if (Math.abs(speed) < 0.1) {
+      mainStorageMotor.set(ControlMode.PercentOutput, 0);
+    } else if (Math.abs(speed) > .1 && speed > 0) {
+      mainStorageMotor.set(ControlMode.PercentOutput, 0.5);
+    } else if (Math.abs(speed) > .1 && speed < 0) {
+      mainStorageMotor.set(ControlMode.PercentOutput, -.5);
+    }
+
+  }
+
+  public void setTurretStorageSpeed(double speed) {
+    turretStorageMotor.set(ControlMode.PercentOutput, speed);
   }
 
   public void ballDetect() {
@@ -77,9 +93,10 @@ public class Storage extends SubsystemBase {
     SmartDashboard.putBoolean("second sensor: ", secondBallDetect.get());
     SmartDashboard.putBoolean("fourth sensor: ", fourthBallDetect.get());
     SmartDashboard.putBoolean("turret sensor: ", turretBallDetect.get());
-    SmartDashboard.putBoolean("enteringTurret: ", enteringTurret);
-    SmartDashboard.putBoolean("Ball has entered: ", ballHasEntered);
+    SmartDashboard.putBoolean("enteringTurret: ", inTurret);
+    SmartDashboard.putBoolean("Ball has entered: ", ballEntered);
     SmartDashboard.putBoolean("runTurret: ", runTurretStorgae);
+    SmartDashboard.putNumber("Num Balls:", numBalls);
     // turretStorage(.5);
 
   }
@@ -87,55 +104,53 @@ public class Storage extends SubsystemBase {
   public void runStorage() {
 
     if (frontBallDetect.get() == true) { // front detects ball
-      ballHasEntered = true;
-      // SmartDashboard.putString("ball", "HAS ENTERED");
+      ballEntered = true;
+      
+      SmartDashboard.putString("ball", "HAS ENTERED");
     }
     if (secondBallDetect.get() == true) {
-      enteringSecond = true;
+      atSecond = true;
     }
     if (fourthBallDetect.get() == true) {
-      passedFourth = true;
+      atFourth = true;
     }
-    // if (turretBallDetect.get() == true) {
-    // inTurret = true;
-    // }
 
-    if (ballHasEntered) {
+    if(turretBallDetect.get() == true){
+      inTurret = true;
+    }
 
-      if (secondBallDetect.get() == false) {
+    if (ballEntered) {
+      runStorage = true;
+      
+      if (atSecond == true && numBalls == 0) {
+        runStorage = false;
+        ballEntered = false;
+        numBalls = 1;
+      }else if(atSecond == true && numBalls == 1){
         runStorage = true;
-      } else {
-        enteringSecond = true;
-      }
-      if (enteringSecond) {
-        if (secondBallDetect.get() == false) {
+        if(atFourth == true){
           runStorage = false;
-          ballHasEntered = false;
-          enteringSecond = false;
+          ballEntered = false;
+          numBalls = 2;
+        }
+      }else if(atFourth == true && numBalls == 2){
+        //runStorage = true;
+        runTurretStorgae = true;
+        if(inTurret == true){
+          //runStorage = false;
+          runTurretStorgae = false;
+          ballEntered = false;
+          numBalls = 3;
         }
       }
-      
-    }
-    if (fourthBallDetect.get() == true) {
-      enteringTurret = true;
-      runStorage = true;
      
-    }
-    if (enteringTurret) {
-      if (turretBallDetect.get() == false) {
-        runTurretStorgae = true;
-      } else {
-        runTurretStorgae = false;
-        enteringTurret = false;
-        runStorage = false;
-      }
-    }
+    } 
 
     if (runStorage) {
-      mainStorageMotor.set(ControlMode.PercentOutput, -.35);
+       setStorageSpeed(-.4);
       SmartDashboard.putString("Storage is: ", "ON");
     } else {
-      mainStorageMotor.set(ControlMode.PercentOutput, 0);
+       setStorageSpeed(0);
       SmartDashboard.putString("Storage is: ", "OFF");
     }
 
@@ -147,6 +162,17 @@ public class Storage extends SubsystemBase {
       SmartDashboard.putString("Turret is: ", "OFF");
     }
   }
+
+  public void end(){
+    ballEntered = false;
+    atSecond = false;
+    atFourth = false;
+    inTurret = false;
+    runStorage = false;
+    numBalls = 0;
+    runTurretStorgae = false;
+  }
+
 }
 // if(ballHasEntered){
 // if(secondBallDetect.get() == false){
@@ -182,6 +208,22 @@ public class Storage extends SubsystemBase {
  * }else{ // if(!passedSecond){ // runStorage = false; // } // }
  * 
  * // runStorage = false; // ballHasEntered = false; // }
+ * 
+ * 
+ * 
+ * if (ballHasEntered) {
+ * 
+ * if (secondBallDetect.get() == false) { runStorage = true; } else {
+ * enteringSecond = true; } if (enteringSecond) { if (secondBallDetect.get() ==
+ * false) { runStorage = false; ballHasEntered = false; enteringSecond = false;
+ * } }
+ * 
+ * } if (fourthBallDetect.get() == true) { enteringTurret = true; runStorage =
+ * true; //comment htis out
+ * 
+ * } if (enteringTurret) { if (turretBallDetect.get() == false) {
+ * runTurretStorgae = true; } else { runTurretStorgae = false; enteringTurret =
+ * false; runStorage = false; //comment this out } }
  */
 
 // if (ballHasEntered) {

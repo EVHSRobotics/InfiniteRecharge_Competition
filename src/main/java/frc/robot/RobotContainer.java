@@ -66,6 +66,7 @@ public class RobotContainer {
   private JoystickButton toggleShift;
   private JoystickButton buttonA;
 
+
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
@@ -98,9 +99,12 @@ public class RobotContainer {
   //   intakeFWD.whileHeld(new RunStorage(true, false, .5));
   //   intakeBWD.whileHeld(new RunStorage(false, true, .5));
   //  //toggleShift.whenPressed(new ToggleShift());
-    toggleShift.whenPressed(() -> drivetrain.toggleShift());
-    buttonA.whenPressed(() -> intake.toggleShift());
+    //toggleShift.whenPressed(() -> drivetrain.toggleShift());
+    //buttonA.whenPressed(() -> intake.toggleShift());
 //    buttonA.whileHeld(new IntakeBall());
+   
+
+
    
   }
 

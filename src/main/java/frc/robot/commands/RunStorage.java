@@ -15,6 +15,9 @@ import frc.robot.subsystems.Storage;
 public class RunStorage extends CommandBase {
   Intake intake;
   Storage storage;
+  private double storageThrot;
+  private double turretThrot;
+  private double intakeThrot;
   private boolean backward, forward;
   private double speed;
   private int count = 0;
@@ -24,12 +27,13 @@ public class RunStorage extends CommandBase {
    */
   public RunStorage() {
     // Use addRequirements() here to declare subsystem dependencies.
-    // intake = Robot.robotContainer.intake;
+    
     // addRequirements(intake);
     // backward = bwd;
     // forward = fwd;
     // this.speed = speed;
     storage = Robot.robotContainer.storage;
+    intake = Robot.robotContainer.intake;
     addRequirements(storage);
 
   }
@@ -37,6 +41,7 @@ public class RunStorage extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    storage.end();
   
   }
 
@@ -49,9 +54,15 @@ public class RunStorage extends CommandBase {
     // if(forward){
     //   intake.intakeBall(speed);
     // }
-    
+    storageThrot = Robot.robotContainer.getController().getRawAxis(5);
+    turretThrot = Robot.robotContainer.getController().getRawAxis(1);
+    intakeThrot = Robot.robotContainer.getController().getRawAxis(3) - Robot.robotContainer.getController().getRawAxis(2);
+   
+    storage.setStorageSpeed(storageThrot);
+    storage.setTurretStorageSpeed(turretThrot);
     storage.ballDetect();
-    storage.runStorage();
+    intake.intakeBall(intakeThrot/2);
+    //storage.runStorage();
   }
 
   // Called once the command ends or is interrupted.
