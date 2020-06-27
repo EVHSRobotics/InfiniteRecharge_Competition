@@ -7,6 +7,7 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
 import frc.robot.subsystems.Intake;
@@ -21,6 +22,7 @@ public class RunStorage extends CommandBase {
   private boolean backward, forward;
   private double speed;
   private int count = 0;
+  private boolean autoStorage;
   
   /**
    * Creates a new IntakeBall.
@@ -42,7 +44,7 @@ public class RunStorage extends CommandBase {
   @Override
   public void initialize() {
     storage.end();
-  
+    autoStorage = false;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -58,11 +60,25 @@ public class RunStorage extends CommandBase {
     turretThrot = Robot.robotContainer.getController().getRawAxis(1);
     intakeThrot = Robot.robotContainer.getController().getRawAxis(3) - Robot.robotContainer.getController().getRawAxis(2);
    
-    storage.setStorageSpeed(storageThrot);
-    storage.setTurretStorageSpeed(turretThrot);
+   // storage.setStorageSpeed(storageThrot);
     storage.ballDetect();
-    intake.intakeBall(intakeThrot/2);
-    //storage.runStorage();
+    intake.intakeBall(intakeThrot/4);
+ //storage.runStorage();
+    if(Robot.robotContainer.getController().getRawButtonPressed(1) == true){
+      SmartDashboard.putBoolean("autoStorage", true);
+      autoStorage = true;
+    }else if(Robot.robotContainer.getController().getRawButtonPressed(2) == true){
+      SmartDashboard.putBoolean("autoStorage", false);
+      autoStorage = false;
+    }
+    if(autoStorage){
+      storage.runStorage();
+    }else{
+      storage.setStorageSpeed(storageThrot);
+      storage.setTurretStorageSpeed(turretThrot);
+
+    }
+    
   }
 
   // Called once the command ends or is interrupted.
