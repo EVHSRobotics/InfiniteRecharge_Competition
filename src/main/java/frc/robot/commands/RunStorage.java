@@ -7,6 +7,8 @@
 
 package frc.robot.commands;
 
+import javax.swing.text.DefaultStyledDocument.ElementSpec;
+
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
@@ -62,7 +64,7 @@ public class RunStorage extends CommandBase {
    
    // storage.setStorageSpeed(storageThrot);
     storage.ballDetect();
-    intake.intakeBall(intakeThrot/4);
+    intake.intakeBall(intakeThrot*.3);
  //storage.runStorage();
     if(Robot.robotContainer.getController().getRawButtonPressed(1) == true){
       SmartDashboard.putBoolean("autoStorage", true);
@@ -73,9 +75,18 @@ public class RunStorage extends CommandBase {
     }
     if(autoStorage){
       storage.runStorage();
+      storage.setAuto(true);
     }else{
-      storage.setStorageSpeed(storageThrot);
-      storage.setTurretStorageSpeed(turretThrot);
+      storage.setStorageSpeed(storageThrot/2);
+      storage.setTurretStorageSpeed(storageThrot/2);
+      // if(storageThrot < -0.1){
+      //   intake.intakeBall(.3);
+      // }else if(storageThrot > .1){
+      //   intake.intakeBall(-.3);
+      // }else{
+      //   intake.intakeBall(intakeThrot*.3);
+      // }
+      storage.setAuto(false);
 
     }
     
