@@ -44,12 +44,8 @@ public class ShootBall extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    //shootThrottle = Robot.robotContainer.getController().getRawAxis(2);
-   // storageThrottle_2 = Robot.robotContainer.getController().getRawAxis(3);
-   turretThrottle =  Robot.robotContainer.getController().getRawAxis(3);
-    manualTurret = Robot.robotContainer.getController().getRawAxis(0);
-    // mainStorageThrottle = Robot.robotContainer.getController().getRawAxis(5);
-    // intakeThrottle = Robot.robotContainer.getController().getRawAxis(0);
+    shooter.outtakeBall(.3);
+    storage.setTurretStorageSpeed(.4);
     
 
     counter++;

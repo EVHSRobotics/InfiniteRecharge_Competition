@@ -45,8 +45,9 @@ public class RunStorage extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    storage.end();
+    storage.setUp();
     autoStorage = false;
+    storage.setAuto(false);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -69,12 +70,14 @@ public class RunStorage extends CommandBase {
     if(Robot.robotContainer.getController().getRawButtonPressed(1) == true){
       SmartDashboard.putBoolean("autoStorage", true);
       autoStorage = true;
+      storage.setUp();
     }else if(Robot.robotContainer.getController().getRawButtonPressed(2) == true){
       SmartDashboard.putBoolean("autoStorage", false);
       autoStorage = false;
+      storage.setUp();
     }
     if(autoStorage){
-      storage.runStorage();
+      storage.intakeBall();
       storage.setAuto(true);
     }else{
       storage.setStorageSpeed(storageThrot/2);
