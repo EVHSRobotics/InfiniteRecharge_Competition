@@ -44,6 +44,7 @@ public class Storage extends SubsystemBase {
   boolean runStorage;// = false;
   boolean frontPassedSecondSensor = false;
   boolean auto = false;
+  boolean decreaseBallCount = false;
 
   public Storage() {
     turretStorageMotor = new TalonFX(Constants.STORAGE2_MOTOR);
@@ -196,11 +197,38 @@ public class Storage extends SubsystemBase {
     }
   }
 
-  public void shiftForward(){ 
-    if(turretBallDetect.get() == false){
-      runTurretStorgae
-      runStorage = true;
+  public void runStorage(boolean isOn, double speed){
+    
+    if (isOn) {
+      setStorageSpeed(speed);
+      SmartDashboard.putString("Storage is: ", "ON");
+    } else {
+      setStorageSpeed(0);
+      SmartDashboard.putString("Storage is: ", "OFF");
     }
+  }
+
+  public void runTurretStorage(boolean isOn, double speed){
+    if (isOn) {
+      turretStorageMotor.set(ControlMode.PercentOutput, speed);
+      SmartDashboard.putString("Turret is: ", "ON");
+    } else {
+      turretStorageMotor.set(ControlMode.PercentOutput, 0);
+      SmartDashboard.putString("Turret is: ", "OFF");
+    }
+  }
+  public void shiftForward(){ 
+  
+    if(turretBallDetect.get() == false){
+      runStorage(true, -.45);
+      runTurretStorage(true, .3);
+    }else if(turretBallDetect.get() == true){
+      runStorage(false, 0);
+      runTurretStorage(false, 0);
+      //figure something out for two balls or less in storage. 
+    }
+
+  
   }
 
   public void setUp() {
@@ -217,6 +245,17 @@ public class Storage extends SubsystemBase {
     auto = isAuto;
   }
 
+  public boolean getTurretStorageBool(){
+    return turretBallDetect.get();
+  }
+
+  public int getNumBalls(){
+    return numBalls;
+  }
+
+  public void setNumBalls(int balls){
+    numBalls = balls;
+  }
 }
 // if(ballHasEntered){
 // if(secondBallDetect.get() == false){

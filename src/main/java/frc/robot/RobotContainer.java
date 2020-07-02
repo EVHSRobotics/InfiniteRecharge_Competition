@@ -64,7 +64,7 @@ public class RobotContainer {
   private POVButton intakeFWD;
   private POVButton intakeBWD;
   private JoystickButton toggleShift;
-  private JoystickButton buttonA;
+  private JoystickButton buttonA, buttonX;
 
 
   /**
@@ -95,6 +95,7 @@ public class RobotContainer {
     intakeBWD = new POVButton(controller, 180);
     toggleShift = new JoystickButton(joy, Constants.TOGGLE_SHIFT);
     buttonA = new JoystickButton(controller, 1);
+    buttonX = new JoystickButton(controller, 3);
 
   //   intakeFWD.whileHeld(new RunStorage(true, false, .5));
   //   intakeBWD.whileHeld(new RunStorage(false, true, .5));
@@ -102,6 +103,7 @@ public class RobotContainer {
     //toggleShift.whenPressed(() -> drivetrain.toggleShift());
     //buttonA.whenPressed(() -> intake.toggleShift());
 //    buttonA.whileHeld(new IntakeBall());
+    buttonX.whenPressed(new ShootBall());
    
 
 

@@ -53,20 +53,13 @@ public class RunStorage extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // if(backward){
-    //   intake.intakeBall(-1*speed);
-    // }
-    // if(forward){
-    //   intake.intakeBall(speed);
-    // }
+
     storageThrot = Robot.robotContainer.getController().getRawAxis(5);
-    turretThrot = Robot.robotContainer.getController().getRawAxis(1);
     intakeThrot = Robot.robotContainer.getController().getRawAxis(3) - Robot.robotContainer.getController().getRawAxis(2);
    
-   // storage.setStorageSpeed(storageThrot);
     storage.ballDetect();
     intake.intakeBall(intakeThrot*.3);
- //storage.runStorage();
+
     if(Robot.robotContainer.getController().getRawButtonPressed(1) == true){
       SmartDashboard.putBoolean("autoStorage", true);
       autoStorage = true;
@@ -82,13 +75,6 @@ public class RunStorage extends CommandBase {
     }else{
       storage.setStorageSpeed(storageThrot/2);
       storage.setTurretStorageSpeed(storageThrot/2);
-      // if(storageThrot < -0.1){
-      //   intake.intakeBall(.3);
-      // }else if(storageThrot > .1){
-      //   intake.intakeBall(-.3);
-      // }else{
-      //   intake.intakeBall(intakeThrot*.3);
-      // }
       storage.setAuto(false);
 
     }
