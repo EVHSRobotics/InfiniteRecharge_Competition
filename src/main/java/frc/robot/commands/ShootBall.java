@@ -7,6 +7,7 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
 import frc.robot.RobotContainer;
@@ -23,6 +24,7 @@ public class ShootBall extends CommandBase {
   private double shootThrottle;
   private int counter;
   private int numBalls;
+  private boolean runShooter, runTurret;
 
   /**
    * Creates a new ShootBall.
@@ -40,8 +42,11 @@ public class ShootBall extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    SmartDashboard.putBoolean("Shooter On: ", runShooter);
     numBalls = storage.getNumBalls();
     counter = 0;
+    runShooter = false;
+    runTurret = false;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -52,14 +57,22 @@ public class ShootBall extends CommandBase {
     // shootThrottle = 0;
     // }
     // shooter.outtakeBall(shootThrottle*.8);
-
+    SmartDashboard.putBoolean("Shooter On: ", runShooter);
     if (storage.getTurretStorageBool() == true) {
       counter++;
       shooter.outtakeBall(.6);
+      runShooter = true;
       if (counter >= 50) {
-        storage.setTurretStorageSpeed(-.6);
+        runTurret = true;
+        
       }
       // storage.shiftForward();
+      System.out.println(storage.getTurretStorageBool());
+      if(runTurret){
+        storage.setTurretStorageSpeed(-.8);
+      }else{
+        storage.setTurretStorageSpeed(0);
+      }
     }
 
   }
@@ -69,12 +82,17 @@ public class ShootBall extends CommandBase {
   public void end(boolean interrupted) {
     shooter.outtakeBall(0);
     storage.setTurretStorageSpeed(0);
+    runShooter = false;
+    SmartDashboard.putBoolean("Shooter On: ", runShooter);
+
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
     // stop running this command when numballs decreases by one
+    System.out.println("finished: " + storage.getTurretStorageBool());
+
     if (storage.getTurretStorageBool() == false) {
       return true;
     }
