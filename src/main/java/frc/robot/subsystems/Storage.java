@@ -219,14 +219,16 @@ public class Storage extends SubsystemBase {
   }
   public void shiftForward(){ 
   
-    if(turretBallDetect.get() == false){
-      runStorage(true, -.45);
-      runTurretStorage(true, .3);
-    }else if(turretBallDetect.get() == true){
-      runStorage(false, 0);
-      runTurretStorage(false, 0);
-      //figure something out for two balls or less in storage. 
-    }
+    runStorage(true, -.45);
+    runTurretStorage(true, .6);
+    // if(turretBallDetect.get() == false){
+    //   runStorage(true, -.45);
+    //   runTurretStorage(true, .3);
+    // }else if(turretBallDetect.get() == true){
+    //   runStorage(false, 0);
+    //   runTurretStorage(false, 0);
+    //   //figure something out for two balls or less in storage. 
+    // }
 
   
   }
