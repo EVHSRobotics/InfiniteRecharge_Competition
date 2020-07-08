@@ -15,6 +15,7 @@ import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.IntakeBall;
 import frc.robot.commands.JoystickDrive;
 import frc.robot.commands.RunStorage;
+import frc.robot.commands.ShootAllBalls;
 import frc.robot.commands.ShootBall;
 import frc.robot.commands.ToggleShift;
 import frc.robot.commands.WinchRun;
@@ -103,7 +104,7 @@ public class RobotContainer {
     //toggleShift.whenPressed(() -> drivetrain.toggleShift());
     //buttonA.whenPressed(() -> intake.toggleShift());
 //    buttonA.whileHeld(new IntakeBall());
-    buttonX.whenPressed(new ShootBall());
+    buttonX.whenPressed(new ShootAllBalls());
    
 
 

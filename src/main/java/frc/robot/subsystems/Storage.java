@@ -40,7 +40,7 @@ public class Storage extends SubsystemBase {
   boolean inTurret = false;
   boolean atSecond = false;
   boolean runTurretStorgae;
-  int numBalls = 0;
+  int numBalls = 3;
   boolean runStorage;// = false;
   boolean frontPassedSecondSensor = false;
   boolean auto = false;
@@ -239,7 +239,7 @@ public class Storage extends SubsystemBase {
     atFourth = false;
     inTurret = false;
     runStorage = false;
-    numBalls = 0;
+    numBalls = 3;
     runTurretStorgae = false;
   }
 

@@ -7,6 +7,7 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
 import frc.robot.subsystems.Shooter;
@@ -18,7 +19,7 @@ public class ShootAllBalls extends CommandBase {
   private int counter, numBalls, numBallsShot;
   private boolean runShooter, runTurret;
   private boolean hasShotFirst;
-  private boolean ballEntered, increaseBalls;
+  private boolean enteringShooter;
   /**
    * Creates a new ShootAllBalls.
    */
@@ -36,8 +37,7 @@ public class ShootAllBalls extends CommandBase {
     runShooter = false;
     runTurret = false;
     hasShotFirst = false;
-    ballEntered = false;
-    increaseBalls = false;
+    enteringShooter = false;
     numBalls = storage.getNumBalls();
     numBallsShot = 0;
   }
@@ -49,38 +49,38 @@ public class ShootAllBalls extends CommandBase {
     if(storage.getTurretStorageBool() == true){
       runShooter = true;
       counter++;
-      ballEntered = true;
-    }else{
-      increaseBalls = true;
     }
-    
-    if(ballEntered == true && increaseBalls == true){
-      numBalls++;
-      ballEntered = false;
-      increaseBalls = false;
-    }
-
     if(counter > 50 && hasShotFirst == false){
       runTurret = true;
       hasShotFirst = true;
-
     }
-
     if(hasShotFirst == true && storage.getTurretStorageBool() == false){
-      storage.shiftForward();
+        storage.runStorage(true, -.4);
+    }
+    
+    if(storage.getTurretStorageBool() == true){
+      enteringShooter = true;
+      if(enteringShooter == true){
+        if(storage.getTurretStorageBool() == false){
+          numBallsShot++;
+          enteringShooter = false;
+        }
+      }
     }
 
     if(runShooter == true){
-      shooter.outtakeBall(.7);
+      shooter.outtakeBall(.6);
     }else{
       shooter.outtakeBall(0);
     }
 
     if(runTurret == true){
-      storage.runTurretStorage(true, -.6);
+      storage.runTurretStorage(true, .8);
     }else{
       storage.runTurretStorage(false, 0);
     }
+
+    SmartDashboard.putNumber("num Shot balls: ", numBallsShot);
   }
 
   // Called once the command ends or is interrupted.
@@ -94,9 +94,9 @@ public class ShootAllBalls extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if(numBalls == numBallsShot){
-      return true;
-    }
+    // if(numBalls == numBallsShot){
+    //   return true;
+    // }
     return false;
   }
 }
