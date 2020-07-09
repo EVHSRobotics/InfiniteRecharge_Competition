@@ -7,6 +7,8 @@
 
 package frc.robot.commands;
 
+import javax.swing.text.DefaultStyledDocument.ElementSpec;
+
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
@@ -19,7 +21,8 @@ public class ShootAllBalls extends CommandBase {
   private int counter, numBalls, numBallsShot;
   private boolean runShooter, runTurret;
   private boolean hasShotFirst;
-  private boolean enteringShooter;
+  private boolean enteringShooter, inCompleteTurret;
+  private boolean init;
   /**
    * Creates a new ShootAllBalls.
    */
@@ -40,37 +43,50 @@ public class ShootAllBalls extends CommandBase {
     enteringShooter = false;
     numBalls = storage.getNumBalls();
     numBallsShot = 0;
+  
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    
-    if(storage.getTurretStorageBool() == true){
-      runShooter = true;
+   // if(numBalls != 0){
       counter++;
-    }
-    if(counter > 50 && hasShotFirst == false){
-      runTurret = true;
-      hasShotFirst = true;
-    }
-    if(hasShotFirst == true && storage.getTurretStorageBool() == false){
-        storage.runStorage(true, -.4);
-    }
-    
-    if(storage.getTurretStorageBool() == true){
-      enteringShooter = true;
-      if(enteringShooter == true){
-        if(storage.getTurretStorageBool() == false){
+      runShooter = true;
+      if(counter > 50 && hasShotFirst == false){
+        runTurret = true;
+      //  storage.runTurretStorage(true, .8);
+        // if(storage.getTurretStorageBool() == false){ // if storage is not at max capacity and balls need to move forward into turret first
+        //   storage.runStorage(true, -.4);
+        // }
+        hasShotFirst = true; 
+        numBallsShot = 1;
+      }
+      if(hasShotFirst == true && storage.getTurretStorageBool() == false){ //if storage was already at full cap
+        storage.runStorage(true, -.5);
+       
+      }
+
+      //increase numBalls by measuring "space" between each ball
+      if(storage.getFourthSensor() == true){
+        enteringShooter = true;
+      }
+      if(storage.getTurretStorageBool() == false){ //previous ball has been shot
+        inCompleteTurret = true;
+      }
+      if(enteringShooter == true && inCompleteTurret == true){
+        if(storage.getTurretStorageBool() == true){ //next ball at turret sensor
           numBallsShot++;
           enteringShooter = false;
+          inCompleteTurret = false;
         }
       }
-    }
-
+    
+  
+    
+  
     if(runShooter == true){
       shooter.outtakeBall(.6);
-    }else{
+    }else{ 
       shooter.outtakeBall(0);
     }
 
@@ -79,7 +95,6 @@ public class ShootAllBalls extends CommandBase {
     }else{
       storage.runTurretStorage(false, 0);
     }
-
     SmartDashboard.putNumber("num Shot balls: ", numBallsShot);
   }
 
@@ -89,14 +104,16 @@ public class ShootAllBalls extends CommandBase {
     shooter.outtakeBall(0);
     storage.runTurretStorage(false, 0);
     storage.runStorage(false, 0);
+    hasShotFirst = false;
+    counter = 0;
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    // if(numBalls == numBallsShot){
-    //   return true;
-    // }
+    if(numBallsShot == numBalls && storage.getTurretStorageBool() == false){
+      return true;
+    }
     return false;
   }
 }

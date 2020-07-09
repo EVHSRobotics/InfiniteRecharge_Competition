@@ -251,6 +251,10 @@ public class Storage extends SubsystemBase {
     return turretBallDetect.get();
   }
 
+  public boolean getFourthSensor(){
+      return fourthBallDetect.get();
+  }
+
   public int getNumBalls(){
     return numBalls;
   }
