@@ -18,11 +18,10 @@ import frc.robot.subsystems.Storage;
 public class ShootAllBalls extends CommandBase {
   private Shooter shooter;
   private Storage storage;
-  private int counter, numBalls, numBallsShot;
+  private int counter, numStorageBalls, numBallsShot;
   private boolean runShooter, runTurret;
   private boolean hasShotFirst;
   private boolean enteringShooter, inCompleteTurret;
-  private boolean init;
   /**
    * Creates a new ShootAllBalls.
    */
@@ -41,7 +40,7 @@ public class ShootAllBalls extends CommandBase {
     runTurret = false;
     hasShotFirst = false;
     enteringShooter = false;
-    numBalls = storage.getNumBalls();
+    numStorageBalls = storage.getNumBalls();
     numBallsShot = 0;
   
   }
@@ -54,10 +53,9 @@ public class ShootAllBalls extends CommandBase {
       runShooter = true;
       if(counter > 50 && hasShotFirst == false){
         runTurret = true;
-      //  storage.runTurretStorage(true, .8);
-        // if(storage.getTurretStorageBool() == false){ // if storage is not at max capacity and balls need to move forward into turret first
-        //   storage.runStorage(true, -.4);
-        // }
+        if(storage.getTurretStorageBool() == false){ // if storage is not at max capacity and balls need to move forward into turret first
+          storage.runStorage(true, -.4);
+        }
         hasShotFirst = true; 
         numBallsShot = 1;
       }
@@ -106,12 +104,14 @@ public class ShootAllBalls extends CommandBase {
     storage.runStorage(false, 0);
     hasShotFirst = false;
     counter = 0;
+    numBallsShot = 0;
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if(numBallsShot == numBalls && storage.getTurretStorageBool() == false){
+    if(numBallsShot == numStorageBalls && storage.getTurretStorageBool() == false){
+      storage.setNumBalls(0);
       return true;
     }
     return false;

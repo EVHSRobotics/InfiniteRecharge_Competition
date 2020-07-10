@@ -262,6 +262,10 @@ public class Storage extends SubsystemBase {
   public void setNumBalls(int balls){
     numBalls = balls;
   }
+
+  public void viewNumBalls(){
+    SmartDashboard.putNumber("Balls in Storage", numBalls);
+  }
 }
 // if(ballHasEntered){
 // if(secondBallDetect.get() == false){

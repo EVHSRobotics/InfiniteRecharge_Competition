@@ -22,9 +22,11 @@ public class ShootBall extends CommandBase {
   private Intake intake;
   private Storage storage;
   private double shootThrottle;
-  private int counter;
-  private int numBalls;
-  private boolean runShooter, runTurret;
+  private int counter, numStorageBalls, numBallsShot;
+  private boolean runShooter, runTurret, runStorage;
+  private boolean hasShotFirst;
+  private boolean enteringShooter, inCompleteTurret;
+  private boolean isFinished, isIncomplete;
 
   /**
    * Creates a new ShootBall.
@@ -43,38 +45,74 @@ public class ShootBall extends CommandBase {
   @Override
   public void initialize() {
     SmartDashboard.putBoolean("Shooter On: ", runShooter);
-    numBalls = storage.getNumBalls();
+    numStorageBalls = storage.getNumBalls();
     counter = 0;
     runShooter = false;
     runTurret = false;
+    runStorage = false;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // shootThrottle = Robot.robotContainer.getController().getRawAxis(1);
-    // if(Math.abs(shootThrottle) < .1){
-    // shootThrottle = 0;
-    // }
-    // shooter.outtakeBall(shootThrottle*.8);
-    SmartDashboard.putBoolean("Shooter On: ", runShooter);
-    if (storage.getTurretStorageBool() == true) {
-      counter++;
-      shooter.outtakeBall(.6);
-      runShooter = true;
-      if (counter >= 50) {
+    counter++;
+    runShooter = true;
+    if(storage.getTurretStorageBool() == true){
+      isIncomplete = false;
+      if(counter > 50){
         runTurret = true;
-        
+        numBallsShot = 1;
       }
-      // storage.shiftForward();
-      System.out.println(storage.getTurretStorageBool());
-      if(runTurret){
-        storage.setTurretStorageSpeed(-.8);
-      }else{
-        storage.setTurretStorageSpeed(0);
+      
+    }
+    if(isIncomplete == false) {
+      if(counter > 50){
+        runTurret = true;
+      
+      }
+
+    }
+
+
+    if(storage.getTurretStorageBool() == false){
+      runTurret = true;
+      runStorage = true;
+      isIncomplete = true;
+    }
+
+    if(isIncomplete){
+      if(storage.getFourthSensor() == true){
+        enteringShooter = true;
+      }
+      if(storage.getTurretStorageBool() == false){ //previous ball has been shot
+        inCompleteTurret = true;
+      }
+      if(enteringShooter == true && inCompleteTurret == true){
+        if(storage.getTurretStorageBool() == true){ //next ball at turret sensor
+          numBallsShot = 1;
+          enteringShooter = false;
+          inCompleteTurret = false;
+        }
       }
     }
 
+    if (runShooter == true) {
+      shooter.outtakeBall(.6);
+    } else {
+      shooter.outtakeBall(0);
+    }
+
+    if (runTurret == true) {
+      storage.runTurretStorage(true, .8);
+    } else {
+      storage.runTurretStorage(false, 0);
+    }
+
+    if (runStorage == true) {
+      storage.runTurretStorage(true, -.4);
+    } else {
+      storage.runTurretStorage(false, 0);
+    }
   }
 
   // Called once the command ends or is interrupted.
@@ -83,6 +121,11 @@ public class ShootBall extends CommandBase {
     shooter.outtakeBall(0);
     storage.setTurretStorageSpeed(0);
     runShooter = false;
+    runTurret = false;
+    runStorage = false;
+    numBallsShot = 0;
+    isIncomplete = false;
+    enteringShooter = false;
     SmartDashboard.putBoolean("Shooter On: ", runShooter);
 
   }
@@ -92,8 +135,7 @@ public class ShootBall extends CommandBase {
   public boolean isFinished() {
     // stop running this command when numballs decreases by one
     System.out.println("finished: " + storage.getTurretStorageBool());
-
-    if (storage.getTurretStorageBool() == false) {
+    if(numBallsShot == 1){
       return true;
     }
     return false;
