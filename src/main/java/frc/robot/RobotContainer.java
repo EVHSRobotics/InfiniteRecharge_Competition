@@ -65,7 +65,7 @@ public class RobotContainer {
   private POVButton intakeFWD;
   private POVButton intakeBWD;
   private JoystickButton toggleShift;
-  private JoystickButton buttonA, buttonX;
+  private JoystickButton buttonA, buttonX, buttonY;
 
 
   /**
@@ -97,6 +97,7 @@ public class RobotContainer {
     toggleShift = new JoystickButton(joy, Constants.TOGGLE_SHIFT);
     buttonA = new JoystickButton(controller, 1);
     buttonX = new JoystickButton(controller, 3);
+    buttonY = new JoystickButton(controller, 4);
 
   //   intakeFWD.whileHeld(new RunStorage(true, false, .5));
   //   intakeBWD.whileHeld(new RunStorage(false, true, .5));
@@ -105,6 +106,7 @@ public class RobotContainer {
     //buttonA.whenPressed(() -> intake.toggleShift());
 //    buttonA.whileHeld(new IntakeBall());
     buttonX.whenPressed(new ShootAllBalls());
+    buttonY.whenPressed(new ShootBall());
    
 
 
