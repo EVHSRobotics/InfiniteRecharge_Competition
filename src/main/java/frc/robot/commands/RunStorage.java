@@ -73,6 +73,7 @@ public class RunStorage extends CommandBase {
       storage.intakeBall();
       storage.setAuto(true);
     }else{
+      storage.intakeBall();
       storage.setStorageSpeed(storageThrot/2);
       storage.setTurretStorageSpeed(storageThrot/2);
       storage.setAuto(false);

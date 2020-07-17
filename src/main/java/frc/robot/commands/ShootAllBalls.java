@@ -19,7 +19,7 @@ public class ShootAllBalls extends CommandBase {
   private Shooter shooter;
   private Storage storage;
   private int counter, numStorageBalls, numBallsShot;
-  private boolean runShooter, runTurret;
+  private boolean runShooter, runTurret, runStorage;
   private boolean hasShotFirst;
   private boolean enteringShooter, inCompleteTurret;
   /**
@@ -39,6 +39,7 @@ public class ShootAllBalls extends CommandBase {
     runShooter = false;
     runTurret = false;
     hasShotFirst = false;
+    runStorage = false;
     enteringShooter = false;
     numStorageBalls = storage.getNumBalls();
     numBallsShot = 0;
@@ -54,13 +55,15 @@ public class ShootAllBalls extends CommandBase {
       if(counter > 50 && hasShotFirst == false){
         runTurret = true;
         if(storage.getTurretStorageBool() == false){ // if storage is not at max capacity and balls need to move forward into turret first
-          storage.runStorage(true, -.4);
+         // storage.runStorage(true, -.4);
+         runStorage = true;
         }
         hasShotFirst = true; 
         numBallsShot = 1;
       }
       if(hasShotFirst == true && storage.getTurretStorageBool() == false){ //if storage was already at full cap
-        storage.runStorage(true, -.5);
+       // storage.runStorage(true, -.5);
+        runStorage = true;
        
       }
 
@@ -92,6 +95,12 @@ public class ShootAllBalls extends CommandBase {
       storage.runTurretStorage(true, .8);
     }else{
       storage.runTurretStorage(false, 0);
+    }
+
+    if(runStorage == true){
+      storage.runStorage(true, -.4);
+    }else{
+      storage.runStorage(false, 0);
     }
     SmartDashboard.putNumber("num Shot balls: ", numBallsShot);
   }

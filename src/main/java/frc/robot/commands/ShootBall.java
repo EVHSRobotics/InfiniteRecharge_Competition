@@ -57,7 +57,6 @@ public class ShootBall extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    SmartDashboard.putNumber("Storage Balls: ", numStorageBalls);
     counter++;
     runShooter = true;
     if(storage.getTurretStorageBool() == true){
