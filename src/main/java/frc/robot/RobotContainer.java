@@ -17,6 +17,7 @@ import frc.robot.commands.JoystickDrive;
 import frc.robot.commands.RunStorage;
 import frc.robot.commands.ShootAllBalls;
 import frc.robot.commands.ShootBall;
+import frc.robot.commands.StopShooter;
 import frc.robot.commands.ToggleShift;
 import frc.robot.commands.WinchRun;
 import frc.robot.subsystems.Climb;
@@ -65,7 +66,7 @@ public class RobotContainer {
   private POVButton intakeFWD;
   private POVButton intakeBWD;
   private JoystickButton toggleShift;
-  private JoystickButton buttonA, buttonX, buttonY;
+  private JoystickButton buttonA, buttonX, buttonY, leftButton;
 
 
   /**
@@ -98,6 +99,7 @@ public class RobotContainer {
     buttonA = new JoystickButton(controller, 1);
     buttonX = new JoystickButton(controller, 3);
     buttonY = new JoystickButton(controller, 4);
+    leftButton = new JoystickButton(controller, 5);
 
   //   intakeFWD.whileHeld(new RunStorage(true, false, .5));
   //   intakeBWD.whileHeld(new RunStorage(false, true, .5));
@@ -107,6 +109,7 @@ public class RobotContainer {
 //    buttonA.whileHeld(new IntakeBall());
     buttonX.whenPressed(new ShootAllBalls());
     buttonY.whenPressed(new ShootBall());
+    leftButton.whenPressed(new StopShooter());
    
 
 

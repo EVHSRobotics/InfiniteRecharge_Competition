@@ -58,8 +58,11 @@ public class ShootAllBalls extends CommandBase {
          // storage.runStorage(true, -.4);
          runStorage = true;
         }
-        hasShotFirst = true; 
-        numBallsShot = 1;
+        if(storage.getTurretStorageBool() == true){
+          hasShotFirst = true; 
+          numBallsShot = 1;
+        }
+        
       }
       if(hasShotFirst == true && storage.getTurretStorageBool() == false){ //if storage was already at full cap
        // storage.runStorage(true, -.5);
@@ -114,13 +117,15 @@ public class ShootAllBalls extends CommandBase {
     hasShotFirst = false;
     counter = 0;
     numBallsShot = 0;
+    storage.setUp();
+    storage.setNumBalls(0);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if(numBallsShot == numStorageBalls && storage.getTurretStorageBool() == false){
-      storage.setNumBalls(0);
+    if(numBallsShot >= numStorageBalls && storage.getTurretStorageBool() == false){
+     
       return true;
     }
     return false;
