@@ -19,6 +19,7 @@ import frc.robot.commands.ShootAllBalls;
 import frc.robot.commands.ShootBall;
 import frc.robot.commands.StopShooter;
 import frc.robot.commands.ToggleShift;
+import frc.robot.commands.TurretJoy;
 import frc.robot.commands.WinchRun;
 import frc.robot.subsystems.Climb;
 import frc.robot.subsystems.Drivetrain;
@@ -59,6 +60,7 @@ public class RobotContainer {
   public static ShootBall shootBall = new ShootBall();
   public static WinchRun winchRun = new WinchRun();
   public static RunStorage runStorage = new RunStorage();
+  public static TurretJoy turretJoy = new TurretJoy();
 
   private XboxController controller;
   private Joystick wheel;
@@ -101,12 +103,6 @@ public class RobotContainer {
     buttonY = new JoystickButton(controller, 4);
     leftButton = new JoystickButton(controller, 5);
 
-  //   intakeFWD.whileHeld(new RunStorage(true, false, .5));
-  //   intakeBWD.whileHeld(new RunStorage(false, true, .5));
-  //  //toggleShift.whenPressed(new ToggleShift());
-    //toggleShift.whenPressed(() -> drivetrain.toggleShift());
-    //buttonA.whenPressed(() -> intake.toggleShift());
-//    buttonA.whileHeld(new IntakeBall());
     buttonX.whenPressed(new ShootAllBalls());
     buttonY.whenPressed(new ShootBall());
     leftButton.whenPressed(new StopShooter());

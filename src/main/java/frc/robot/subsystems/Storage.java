@@ -32,13 +32,13 @@ public class Storage extends SubsystemBase {
   private DigitalInput fourthBallDetect; // 7
   private DigitalInput turretBallDetect; // 9
 
-  boolean ballEntered;// = false;
+  boolean ballEntered, ballEntering, ballLeaving;// = false;
   boolean passedSecond;// = false;
   boolean passedSecondTwice;
-  boolean passedThird = false;
-  boolean atFourth = false;
-  boolean inTurret = false;
-  boolean atSecond = false;
+  boolean passedThird;
+  boolean atFourth;
+  boolean inTurret;
+  boolean atSecond;
   boolean runTurretStorgae;
   int numBalls;
   boolean runStorage;// = false;
@@ -63,6 +63,8 @@ public class Storage extends SubsystemBase {
     inTurret = false;
     runStorage = false;
     runTurretStorgae = false;
+    ballEntering = false;
+    ballLeaving = false;
     numBalls = 0;
   }
 
@@ -90,6 +92,13 @@ public class Storage extends SubsystemBase {
       }
     }
 
+    if(speed < 0){
+      ballEntering = true;
+      ballLeaving = false;
+    }else{
+      ballLeaving = true;
+      ballEntering = false;
+    }
   }
 
   public void setTurretStorageSpeed(double speed) {
@@ -113,6 +122,7 @@ public class Storage extends SubsystemBase {
     // System.out.println("turret sensor: " + turretBallDetect.get());
     SmartDashboard.putBoolean("front sensor: ", frontBallDetect.get());
     SmartDashboard.putBoolean("second sensor: ", secondBallDetect.get());
+
     SmartDashboard.putBoolean("fourth sensor: ", fourthBallDetect.get());
     SmartDashboard.putBoolean("turret sensor: ", turretBallDetect.get());
     SmartDashboard.putBoolean("In Turret: ", inTurret);
@@ -142,9 +152,13 @@ public class Storage extends SubsystemBase {
       inTurret = true;
     }
 
+    
+
     if(auto == true){
       if (ballEntered) {
-        runStorage = true;
+        
+          runStorage = true;
+        
 
         if (atSecond == true && numBalls == 0) {
           runStorage = false;
@@ -174,18 +188,32 @@ public class Storage extends SubsystemBase {
         } else if (atFourth == true && numBalls == 3) {
           runStorage = false;
           ballEntered = false;
-        }
+          
+        } 
       }
     }else{
-      if(frontBallDetect.get() == true){
-        ballEntered = true;
-      }
-      if(ballEntered == true){
-        if(frontBallDetect.get() == false){
-          numBalls++;
-          ballEntered = false;
+     
+        if(frontBallDetect.get() == true){
+          ballEntered = true;
         }
-      }
+        if(ballEntered == true){
+          if(frontBallDetect.get() == false){
+            if(ballEntering){
+              numBalls++;
+            }
+            if(ballLeaving){
+              numBalls--;
+            }
+            
+           // numBalls++;
+
+            ballEntered = false;
+            ballEntering = false;
+            ballLeaving = false;
+          }
+        }
+      
+      
     }
 
     if (runStorage) {

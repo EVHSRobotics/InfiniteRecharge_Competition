@@ -58,7 +58,7 @@ public class RunStorage extends CommandBase {
     intakeThrot = Robot.robotContainer.getController().getRawAxis(3) - Robot.robotContainer.getController().getRawAxis(2);
    
     storage.ballDetect();
-    intake.intakeBall(intakeThrot*.3);
+    intake.intakeBall(intakeThrot);
 
     if(Robot.robotContainer.getController().getRawButtonPressed(1) == true){
       SmartDashboard.putBoolean("autoStorage", true);
