@@ -106,6 +106,10 @@ public class RobotContainer {
     buttonX.whenPressed(new ShootAllBalls());
     buttonY.whenPressed(new ShootBall());
     leftButton.whenPressed(new StopShooter());
+
+    if(joy.getRawButton(2) == true){
+      storage.setNumBalls(0);
+    }
    
 
 

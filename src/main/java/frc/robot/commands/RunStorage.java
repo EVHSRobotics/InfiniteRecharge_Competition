@@ -46,6 +46,7 @@ public class RunStorage extends CommandBase {
   @Override
   public void initialize() {
     storage.setUp();
+    storage.setNumBalls(0);
     autoStorage = false;
     storage.setAuto(false);
   }
@@ -58,17 +59,10 @@ public class RunStorage extends CommandBase {
     intakeThrot = Robot.robotContainer.getController().getRawAxis(3) - Robot.robotContainer.getController().getRawAxis(2);
    
     storage.ballDetect();
-    intake.intakeBall(intakeThrot);
+    intake.intakeBall(intakeThrot*.5);
 
-    if(Robot.robotContainer.getController().getRawButtonPressed(1) == true){
-      SmartDashboard.putBoolean("autoStorage", true);
-      autoStorage = true;
-      storage.setUp();
-    }else if(Robot.robotContainer.getController().getRawButtonPressed(2) == true){
-      SmartDashboard.putBoolean("autoStorage", false);
-      autoStorage = false;
-      storage.setUp();
-    }
+    toggleAuto();
+
     if(autoStorage){
       storage.intakeBall();
       storage.setAuto(true);
@@ -80,6 +74,21 @@ public class RunStorage extends CommandBase {
 
     }
     
+  }
+
+  public void toggleAuto(){
+    if(Robot.robotContainer.getController().getRawButtonPressed(1) == true){
+      if (autoStorage == true){
+        autoStorage = false;
+        SmartDashboard.putBoolean("autoStorage", false);
+        storage.setUp();
+      }else if (autoStorage == false){
+        autoStorage = true;
+        SmartDashboard.putBoolean("autoStorage", true);
+        storage.setUp();
+      }
+  
+    }
   }
 
   // Called once the command ends or is interrupted.

@@ -102,6 +102,7 @@ public class ShootBall extends CommandBase {
     numStorageBalls--;
     storage.setUp();
     storage.setNumBalls(numStorageBalls);
+    runShooter = false;
     SmartDashboard.putNumber("Storage Balls: ", numStorageBalls);
   
     SmartDashboard.putBoolean("Shooter On: ", runShooter);
