@@ -47,7 +47,8 @@ public final class Constants {
 	public static final int CONTROLLER = 1;
 	public static final int INTAKE_BWD = 5;
 	public static final int INTAKE_FWD = 6;
-	public static final int TOGGLE_SHIFT = 1;
+	public static final int DRIVE_SHIFT = 1;
+	public static final int INTAKE_SHIFT = 5;
 
 	//sensors
 	public static final int BANNER_1= 0;

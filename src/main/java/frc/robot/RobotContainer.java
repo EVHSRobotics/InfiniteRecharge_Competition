@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.Autonomous.AutoTest;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.IntakeBall;
+import frc.robot.commands.IntakeToggle;
 import frc.robot.commands.JoystickDrive;
 import frc.robot.commands.RunStorage;
 import frc.robot.commands.ShootAllBalls;
@@ -67,8 +68,9 @@ public class RobotContainer {
   private Joystick joy;
   private POVButton intakeFWD;
   private POVButton intakeBWD;
-  private JoystickButton toggleShift;
+  private JoystickButton toggleShift, toggleIntake;
   private JoystickButton buttonA, buttonX, buttonY, leftButton;
+
 
 
   /**
@@ -97,7 +99,8 @@ public class RobotContainer {
     joy = new Joystick(0);
     intakeFWD = new POVButton(controller, 90);
     intakeBWD = new POVButton(controller, 180);
-    toggleShift = new JoystickButton(joy, Constants.TOGGLE_SHIFT);
+    toggleShift = new JoystickButton(joy, Constants.DRIVE_SHIFT);
+    toggleIntake = new JoystickButton(joy, Constants.INTAKE_SHIFT);
     buttonA = new JoystickButton(controller, 1);
     buttonX = new JoystickButton(controller, 3);
     buttonY = new JoystickButton(controller, 4);
@@ -107,11 +110,12 @@ public class RobotContainer {
     buttonY.whenPressed(new ShootBall());
     leftButton.whenPressed(new StopShooter());
 
-    if(joy.getRawButton(2) == true){
-      storage.setNumBalls(0);
-    }
-   
+    toggleShift.whenPressed(new ToggleShift());
+    toggleIntake.whenPressed(new IntakeToggle());
 
+   
+     
+   
 
    
   }

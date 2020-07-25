@@ -38,6 +38,7 @@ public class Drivetrain extends SubsystemBase {
   private Value off = Value.kOff;
   private String gearState;
   private boolean isFast = false;
+  private DoubleSolenoid shifter;
 
   private TalonFX leftTalon1_f;
   private TalonFX rightTalon1_f;
@@ -101,18 +102,18 @@ public class Drivetrain extends SubsystemBase {
     if (gear.equals("fast")) {
       gearState = "fast";
       System.out.println("shifted to fast");
-     // shifter.set(fast);
+      shifter.set(fast);
       
     } else if (gear.equals("slow")) {
       gearState = "slow";
       System.out.println("shifted to slow");
-     // shifter.set(slow);
+      shifter.set(slow);
       
     }
   }
 
   public void stopShift() {
-    //shifter.set(off);
+     shifter.set(off);
   }
 
   

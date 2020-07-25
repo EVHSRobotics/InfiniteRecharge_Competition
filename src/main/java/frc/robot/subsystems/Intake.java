@@ -26,14 +26,14 @@ public class Intake extends SubsystemBase {
   private boolean ballLoaded;
   boolean isFast;
   String gearState;
- // DoubleSolenoid shifter;
+  DoubleSolenoid shifter;
   private Value fast = Value.kForward;
   private Value slow = Value.kReverse;
   private Value off = Value.kOff;
   
   public Intake() {
     intakeMotor = new VictorSPX(Constants.INTAKE_MOTOR);
-   // shifter = new DoubleSolenoid(Constants.intakeUp, Constants.intakeDown);
+  //shifter = new DoubleSolenoid(Constants.intakeUp, Constants.intakeDown);
     // banner = new DigitalInput(Constants.BANNER_1);
     // banner2 = new DigitalInput(Constants.BANNER_2);
 
@@ -95,12 +95,12 @@ public class Intake extends SubsystemBase {
     if (gear.equals("fast")) {
       gearState = "fast";
       System.out.println("shifted to fast");
-      //shifter.set(fast);
+      shifter.set(fast);
       
     } else if (gear.equals("slow")) {
       gearState = "slow";
       System.out.println("shifted to slow");
-     // shifter.set(slow);
+      shifter.set(slow);
       
     }
   }

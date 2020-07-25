@@ -73,6 +73,10 @@ public class RunStorage extends CommandBase {
       storage.setAuto(false);
 
     }
+
+    if(Robot.robotContainer.getController().getRawButtonPressed(2) == true){
+      storage.setNumBalls(0);
+    }
     
   }
 
