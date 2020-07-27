@@ -65,7 +65,7 @@ public class Drivetrain extends SubsystemBase {
 
       dDrive = new DifferentialDrive(leftGroup, rightGroup);
 
-   // shifter = new DoubleSolenoid(Constants.shifterUp1, Constants.shifterDown1);
+    shifter = new DoubleSolenoid(Constants.shifterUp1, Constants.shifterDown1);
     navX = new AHRS(Port.kUSB1);
 
 

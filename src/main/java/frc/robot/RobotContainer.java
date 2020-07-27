@@ -110,8 +110,11 @@ public class RobotContainer {
     buttonY.whenPressed(new ShootBall());
     leftButton.whenPressed(new StopShooter());
 
-    toggleShift.whenPressed(new ToggleShift());
-    toggleIntake.whenPressed(new IntakeToggle());
+    //toggleShift.whenPressed(new ToggleShift());
+    // toggleIntake.whenPressed(new IntakeToggle());
+
+    toggleShift.whenPressed(() -> drivetrain.toggleShift());
+    toggleIntake.whenPressed(() -> intake.toggleShift());
 
    
      

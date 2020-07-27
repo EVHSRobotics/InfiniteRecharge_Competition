@@ -86,7 +86,7 @@ public class Storage extends SubsystemBase {
       if (numBalls == 2 && Math.abs(speed) > 0) { // without the second check motor still runs even if speed is not inputted
         mainStorageMotor.set(ControlMode.PercentOutput, -.45);
       } else if (numBalls == 3 && Math.abs(speed) > 0) {
-        mainStorageMotor.set(ControlMode.PercentOutput, -.6);
+        mainStorageMotor.set(ControlMode.PercentOutput, -.5);
       } else {
         mainStorageMotor.set(ControlMode.PercentOutput, speed);
       }

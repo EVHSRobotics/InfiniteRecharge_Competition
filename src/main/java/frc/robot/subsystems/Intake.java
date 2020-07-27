@@ -33,7 +33,7 @@ public class Intake extends SubsystemBase {
   
   public Intake() {
     intakeMotor = new VictorSPX(Constants.INTAKE_MOTOR);
-  //shifter = new DoubleSolenoid(Constants.intakeUp, Constants.intakeDown);
+    shifter = new DoubleSolenoid(Constants.intakeUp, Constants.intakeDown);
     // banner = new DigitalInput(Constants.BANNER_1);
     // banner2 = new DigitalInput(Constants.BANNER_2);
 

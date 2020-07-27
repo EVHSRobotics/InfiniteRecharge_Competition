@@ -49,7 +49,7 @@ public class ShootAllBalls extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-   // if(numBalls != 0){
+    if(numStorageBalls > 0){
       counter++;
       runShooter = true;
       if(counter > 50 && hasShotFirst == false){
@@ -84,6 +84,7 @@ public class ShootAllBalls extends CommandBase {
           inCompleteTurret = false;
         }
       }
+    }
     
   
     
